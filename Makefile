@@ -30,7 +30,7 @@ REQUIRED_SOFTWARE=docker docker-compose git node yarn
 REACTION_PROJECTS=reaction-graphql-gateway reaction-users
 
 # List of user defined networks that should be created.
-REACTION_NETWORKS=reaction-graphql-gateway
+REACTION_NETWORKS=graphql.reaction.localhost
 
 HOOK_DIR=.reaction/project-hooks
 
