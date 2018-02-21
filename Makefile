@@ -63,7 +63,6 @@ github-configured: dependencies ssh-public-key
 ###############################################################################
 is-not-installed=! (command -v $(1) >/dev/null)
 
-# Create 'verify-dependency-*' targets from macro.
 define dependency-template
 dependency-$(1):
 	@if ( $(call is-not-installed,$(1)) ); \
