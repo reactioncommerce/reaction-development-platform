@@ -27,14 +27,14 @@ REQUIRED_SOFTWARE=docker docker-compose git node yarn
 # The project name must be in the ReactionCommerce Github org and the name must
 # match the Github project name.
 # Projects are started in order of this list.
-REACTION_PROJECTS=reaction-base
+REACTION_PROJECTS=reaction-graphql-gateway reaction-users
 
 # List of user defined networks that should be created.
-REACTION_NETWORKS=reaction-base
+REACTION_NETWORKS=reaction-graphql-gateway
 
 HOOK_DIR=.reaction/project-hooks
 
-all: start-with-post-project-start-hook post-system-start-hook
+all: network-create start-with-post-project-start-hook post-system-start-hook
 
 
 ###############################################################################
@@ -63,7 +63,6 @@ github-configured: dependencies ssh-public-key
 ###############################################################################
 is-not-installed=! (command -v $(1) >/dev/null)
 
-# Create 'verify-dependency-*' targets from macro.
 define dependency-template
 dependency-$(1):
 	@if ( $(call is-not-installed,$(1)) ); \
@@ -79,12 +78,39 @@ $(foreach pkg,$(REQUIRED_SOFTWARE),$(eval $(call dependency-template,$(pkg))))
 .PHONY: dependencies
 dependencies: $(foreach pkg,$(REQUIRED_SOFTWARE),dependency-$(pkg))
 
+###############################################################################
+### Create Docker Networks
+### Create all networks defined in the REACTION_NETWORKS variable.
+### Networks provide a way to loosely couple the projects and allow them to
+### communicate with each other. We'll use dependencies on external networks
+### rather than dependencies on other projects. Networks are lightweight and
+### easy to create.
+###############################################################################
+define network-create-template
+network-create-$(1):
+	@docker network create "$(1)" || true
+endef
+$(foreach p,$(REACTION_NETWORKS),$(eval $(call network-create-template,$(p))))
+
+.PHONY: create-networks
+network-create: $(foreach p,$(REACTION_NETWORKS),network-create-$(p))
+
+###############################################################################
+### Remove Docker Networks
+### Remove all networks defined in the REACTION_NETWORKS variable.
+###############################################################################
+define network-remove-template
+network-remove-$(1):
+	@docker network rm "$(1)" || true
+endef
+$(foreach p,$(REACTION_NETWORKS),$(eval $(call network-remove-template,$(p))))
+
+.PHONY: network-remove
+network-remove: $(foreach p,$(REACTION_NETWORKS),network-remove-$(p))
 
 ###############################################################################
 ### Github cloning
 ###############################################################################
-
-# Create 'verify-dependency-*' targets from macro.
 define git-clone-template
 $(1):
 	@git clone "git@github.com:reactioncommerce/$(1).git"
@@ -252,7 +278,7 @@ endef
 $(foreach p,$(REACTION_PROJECTS),$(eval $(call clean-template,$(p))))
 
 .PHONY: clean
-clean: $(foreach p,$(REACTION_PROJECTS),clean-$(p))
+clean: network-remove $(foreach p,$(REACTION_PROJECTS),clean-$(p))
 
 ###############################################################################
 ### Destroy
@@ -269,7 +295,7 @@ endef
 $(foreach p,$(REACTION_PROJECTS),$(eval $(call destroy-template,$(p))))
 
 .PHONY: destroy
-destroy: $(foreach p,$(REACTION_PROJECTS),destroy-$(p))
+destroy: network-remove $(foreach p,$(REACTION_PROJECTS),destroy-$(p))
 
 ###############################################################################
 ### Dynamically list all targets.
