@@ -30,7 +30,7 @@ REQUIRED_SOFTWARE=docker docker-compose git node yarn
 REACTION_PROJECTS=reaction-graphql-gateway reaction-users
 
 # List of user defined networks that should be created.
-REACTION_NETWORKS=reaction-graphql-gateway
+REACTION_NETWORKS=graphql.reaction.localhost
 
 HOOK_DIR=.reaction/project-hooks
 
@@ -278,7 +278,7 @@ endef
 $(foreach p,$(REACTION_PROJECTS),$(eval $(call clean-template,$(p))))
 
 .PHONY: clean
-clean: network-remove $(foreach p,$(REACTION_PROJECTS),clean-$(p))
+clean: $(foreach p,$(REACTION_PROJECTS),clean-$(p)) network-remove
 
 ###############################################################################
 ### Destroy
