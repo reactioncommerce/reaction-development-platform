@@ -278,7 +278,7 @@ endef
 $(foreach p,$(REACTION_PROJECTS),$(eval $(call clean-template,$(p))))
 
 .PHONY: clean
-clean: network-remove $(foreach p,$(REACTION_PROJECTS),clean-$(p))
+clean: $(foreach p,$(REACTION_PROJECTS),clean-$(p)) network-remove
 
 ###############################################################################
 ### Destroy
