@@ -1,4 +1,3 @@
-generator-reaction-next
-reaction-base
-reaction-graphql-gateway
-reaction-users
+reaction
+reaction-keycloak
+reaction-next-starterkit
