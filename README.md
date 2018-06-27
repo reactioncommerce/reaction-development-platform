@@ -51,18 +51,46 @@ This process may take some time. Behind the scenes `make` is
 * building custom, project Docker images
 * starting services
 
+## Networks
+
+User-defined Docker networks are used to connect the Reaction services that run
+as separate Docker Compose projects. With this configuration, each of the
+project Docker Compose files should be able to launch independently though
+errors are possible if a service dependency is not available.
+
+### Strategy
+
+The Docker environment should run as `*.reaction.localhost`. The `localhost`
+TLD is reserved and guaranteed to not conflict with a real TLD.
+
+Please use this convention for all networks created in the future. We do have
+some existing networks that are named like this and should work to transition
+them.
+
+### Network List
+
+| Network                    | Description                                    |
+| -------------------------- | ---------------------------------------------- |
+| reaction-api               | GraphQL and API traffic between services.      |
+| reaction-auth              | Access to identity and authorization services. |
+| streams.reaction.localhost | Network for Confluent and Kafka communication. |
+
 ## Services
 
 When the initial `make` command is complete you can use these services:
 
 | Service                                             | Description                                                                                                                  |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [Reaction Meteor](http://localhost:3000)            | The Reaction Meteor application.                                                                                             |
-| [Reaction Devserver](http://localhost:3030)         | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                                                 |
 | [GraphiQL](http://localhost:3030/graphiql)          | The [GraphiQL](https://github.com/graphql/graphiql) interface for GraphQL interaction.                                       |
-| [Reaction Next Starterkit](http://localhost:4000)   | Reaction UI build on [Next.JS](https://github.com/zeit/next.js/).                                                            |
+| [Confluent Control Center](http://localhost:9021)   | [Confluent Control Center](https://docs.confluent.io/current/control-center/docs/index.html)                                 |
+| Confluent Kafka                                     | Confluent Kafka - Confluent's distribution of the Kafka streaming platform.                                                  |
+| Confluent Schema Registry                           | Confluent Schema Registry - helps with storage and evolution of schemas.                                                     |
+| Confluent Zookeeper                                 | Confluent's distribute of Zookeeper.                                                                                         |
 | [Identity & Auth (Keycloak)](http://localhost:8080) | Administration interface for the Identity and Authorization service. Implemented with [Keycloak](https://www.keycloak.org/). |
 | [Identity Demo Console](http://localhost:8000)      | A custom Keycloak console that demonstrates integration with a client-side app.                                              |
+| [Reaction Devserver](http://localhost:3030)         | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                                                 |
+| [Reaction Meteor](http://localhost:3000)            | The Reaction Meteor application.                                                                                             |
+| [Reaction Next Starterkit](http://localhost:4000)   | Reaction UI build on [Next.JS](https://github.com/zeit/next.js/).                                                            |
 
 ## Project Commands
 
