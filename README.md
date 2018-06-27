@@ -58,6 +58,10 @@ When the initial `make` command is complete you can use these services:
 | Service                                             | Description                                                                                                                  |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | [GraphiQL](http://localhost:3030/graphiql)          | The [GraphiQL](https://github.com/graphql/graphiql) interface for GraphQL interaction.                                       |
+| [Confluent Control Center](http://localhost:9021)   | [Confluent Control Center](https://docs.confluent.io/current/control-center/docs/index.html)                                 |
+| Confluent Kafka                                     | Confluent Kafka - Confluent's distribution of the Kafka streaming platform.                                                  |
+| Confluent Schema Registry                           | Confluent Schema Registry - helps with storage and evolution of schemas.                                                     |
+| Confluent Zookeeper                                 | Confluent's distribute of Zookeeper.                                                                                         |
 | [Identity & Auth (Keycloak)](http://localhost:8080) | Administration interface for the Identity and Authorization service. Implemented with [Keycloak](https://www.keycloak.org/). |
 | [Identity Demo Console](http://localhost:8000)      | A custom Keycloak console that demonstrates integration with a client-side app.                                              |
 | [Reaction Devserver](http://localhost:3030)         | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                                                 |
