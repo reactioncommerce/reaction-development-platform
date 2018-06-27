@@ -57,12 +57,12 @@ When the initial `make` command is complete you can use these services:
 
 | Service                                             | Description                                                                                                                  |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [Reaction Meteor](http://localhost:3000)            | The Reaction Meteor application.                                                                                             |
-| [Reaction Devserver](http://localhost:3030)         | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                                                 |
 | [GraphiQL](http://localhost:3030/graphiql)          | The [GraphiQL](https://github.com/graphql/graphiql) interface for GraphQL interaction.                                       |
-| [Reaction Next Starterkit](http://localhost:4000)   | Reaction UI build on [Next.JS](https://github.com/zeit/next.js/).                                                            |
 | [Identity & Auth (Keycloak)](http://localhost:8080) | Administration interface for the Identity and Authorization service. Implemented with [Keycloak](https://www.keycloak.org/). |
 | [Identity Demo Console](http://localhost:8000)      | A custom Keycloak console that demonstrates integration with a client-side app.                                              |
+| [Reaction Devserver](http://localhost:3030)         | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                                                 |
+| [Reaction Meteor](http://localhost:3000)            | The Reaction Meteor application.                                                                                             |
+| [Reaction Next Starterkit](http://localhost:4000)   | Reaction UI build on [Next.JS](https://github.com/zeit/next.js/).                                                            |
 
 ## Project Commands
 
