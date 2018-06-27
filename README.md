@@ -51,6 +51,30 @@ This process may take some time. Behind the scenes `make` is
 * building custom, project Docker images
 * starting services
 
+## Networks
+
+User-defined Docker networks are used to connect the Reaction services that run
+as separate Docker Compose projects. With this configuration, each of the
+project Docker Compose files should be able to launch independently though
+errors are possible if a service dependency is not available.
+
+### Strategy
+
+The Docker environment should run as `*.reaction.localhost`. The `localhost`
+TLD is reserved and guaranteed to not conflict with a real TLD.
+
+Please use this convention for all networks created in the future. We do have
+some existing networks that are named like this and should work to transition
+them.
+
+### Network List
+
+| Network                    | Description                                    |
+| -------------------------- | ---------------------------------------------- |
+| reaction-api               | GraphQL and API traffic between services.      |
+| reaction-auth              | Access to identity and authorization services. |
+| streams.reaction.localhost | Network for Confluent and Kafka communication. |
+
 ## Services
 
 When the initial `make` command is complete you can use these services:
