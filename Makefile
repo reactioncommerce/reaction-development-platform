@@ -1,5 +1,5 @@
 #gnu makefile
-# This Makefile provides macro control of the Reaction NEXT microservice
+# This Makefile provides macro control of the Reaction Platform microservice
 # ecosystem. It performs tasks like:
 #
 #   * Verify dependencies are present
