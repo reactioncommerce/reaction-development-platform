@@ -1,21 +1,23 @@
 ## Overview
 
-This project is the foundation for the next generation of Reaction Commerce
-software.
+Reaction Platform is a customizable, real-time, reactive commerce solution.
+This repository is the quickest way to get started with [Reaction][10] and its
+supporting services.
 
 ## Features
 
+* An ultra modern, enterprise-ready, real-time commerce platform.
 * A microservices based architecture.
 * Docker based development environment.
-* Services are pre-wired and ready to run locally with a single CLI command.
+* Launched and configured with a single CLI command.
 
 ### Project Structure
 
-Reaction NEXT is build upon a microservices architecture. The
-[reaction-next][8] project is a shell that contains build tools to bootstrap
-the environment.
+Reaction Platform is built with a microservices architecture. This project
+provides the tooling to easily orchestrate the services in a local development
+environment.
 
-Each microservice will be cloned as a child directory within this project.
+Platform services will be cloned as a child directories within this project.
 
 ## Prerequisites
 
@@ -30,9 +32,9 @@ Each microservice will be cloned as a child directory within this project.
 First, clone this repository.
 
 ```sh
-git clone git@github.com:reactioncommerce/reaction-next.git
+git clone git@github.com:reactioncommerce/reaction-platform.git
 
-cd reaction-next
+cd reaction-platform
 ```
 
 #### Bootstrapping
@@ -46,26 +48,32 @@ make
 This process may take some time. Behind the scenes `make` is
 
 * checking that dependencies are present
-* cloning the sub projects
+* cloning the sub projects from Github
 * downloading Docker images
 * building custom, project Docker images
 * starting services
 
-## Networks
+## Networked Services
 
 User-defined Docker networks are used to connect the Reaction services that run
 as separate Docker Compose projects. With this configuration, each of the
-project Docker Compose files should be able to launch independently though
-errors are possible if a service dependency is not available.
+projects can be launched independently using Docker Compose.
 
-### Strategy
+While the projects can be launched independently they may have network
+dependencies that are required to function correctly. The platform Makefile
+will launch services for you if you start it all together. You are free to
+manually start a single service but you will need to ensure dependencies are
+running.
 
-The Docker environment should run as `*.reaction.localhost`. The `localhost`
-TLD is reserved and guaranteed to not conflict with a real TLD.
+### Network Naming Strategy
 
-Please use this convention for all networks created in the future. We do have
+Platform networks in the Docker environment should be named as
+`*.reaction.localhost`. The `localhost` TLD is reserved and guaranteed to not
+conflict with a real TLD.
+
+(Please use this convention for all networks created in the future. We do have
 some existing networks that are named like this and should work to transition
-them.
+them.)
 
 ### Network List
 
@@ -77,7 +85,7 @@ them.
 
 ## Services
 
-When the initial `make` command is complete you can use these services:
+These services will be running when the initial `make` command is complete:
 
 | Service                                             | Description                                                                                                                  |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -90,14 +98,13 @@ When the initial `make` command is complete you can use these services:
 | [Identity Demo Console](http://localhost:8000)      | A custom Keycloak console that demonstrates integration with a client-side app.                                              |
 | [Reaction Devserver](http://localhost:3030)         | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                                                 |
 | [Reaction Meteor](http://localhost:3000)            | The Reaction Meteor application.                                                                                             |
-| [Reaction Next Starterkit](http://localhost:4000)   | Reaction UI build on [Next.JS](https://github.com/zeit/next.js/).                                                            |
+| [Reaction Next Starterkit](http://localhost:4000)   | Reaction UI built with [Next.JS](https://github.com/zeit/next.js/).                                                          |
 
 ## Project Commands
 
-These commands are used to control the system as a whole. Please refer to each
-project README for details on that service.
+These commands are used to control the system as a whole.
 
-Run these commands from the `reaction-next` project root directory.
+Run these commands from the `reaction-platform` project root directory.
 
 | Command      | Description                                                                  |
 | ------------ | ---------------------------------------------------------------------------- |
@@ -106,6 +113,8 @@ Run these commands from the `reaction-next` project root directory.
 | `make start` | Starts all containers.                                                       |
 | `make rm`    | Removes all containers. Volumes are not removed.                             |
 | `make clean` | Removes all containers, networks, and volumes. Any volume data will be lost. |
+
+You may refer to each sub-project's README for additonal operation details.
 
 ## License
 
@@ -119,5 +128,6 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [5]: https://git-scm.com/ "Git"
 [6]: https://github.com/ "Github"
 [7]: https://github.com/settings/keys "Github SSH Keys"
-[8]: https://github.com/reactioncommerce/reaction-next "Reaction NEXT"
+[8]: https://github.com/reactioncommerce/reaction-platform "Reaction Platform"
 [9]: https://github.com/graphcool/graphql-playground "GraphQL Playground"
+[10]: https://github.com/reactioncommerce/reaction "Reaction"
