@@ -167,7 +167,7 @@ build: $(foreach p,$(REACTION_PROJECTS),build-$(p))
 ###############################################################################
 ### Post Build Hook
 ### Invokes the post-build hook in the child project if existent.
-### Invoke after all services in a project have been started.
+### Invoke after all services in a project have been built.
 ###############################################################################
 define post-build-template
 post-build-$(1): build-$(1)
@@ -200,8 +200,8 @@ start: $(foreach p,$(REACTION_PROJECTS),start-$(p))
 
 
 ###############################################################################
-### Post Start Hook
-### Invokes the post-start hook in the child project if existent.
+### Post Project Start Hook
+### Invokes the post-project-start hook in the child project if existent.
 ### Invoked after all services in a project have been started.
 ###############################################################################
 define post-project-start-template
@@ -233,7 +233,7 @@ post-system-start-hook-$(1):
 	  && "$(1)/$(HOOK_DIR)/post-system-start" \
 	  && echo ""; \
 	else \
-	  echo "No post-start-system hook script for $(1). Skipping."; \
+	  echo "No post-system-start hook script for $(1). Skipping."; \
 	fi;
 endef
 $(foreach p,$(REACTION_PROJECTS),$(eval $(call post-system-start-hook-template,$(p))))
