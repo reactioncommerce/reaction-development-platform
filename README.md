@@ -17,7 +17,7 @@ Reaction Platform is built with a microservices architecture. This project
 provides the tooling to easily orchestrate the services in a local development
 environment.
 
-Platform services will be cloned as a child directories within this project.
+Platform services will be cloned as child directories within this project.
 
 ## Prerequisites
 
@@ -72,7 +72,7 @@ Platform networks in the Docker environment should be named as
 conflict with a real TLD.
 
 (Please use this convention for all networks created in the future. We do have
-some existing networks that are named like this and should work to transition
+some existing networks that are not named like this and should work to transition
 them.)
 
 ### Network List
