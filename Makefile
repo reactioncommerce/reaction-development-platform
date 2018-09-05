@@ -40,7 +40,29 @@ REACTION_NETWORKS=graphql.reaction.localhost \
 
 HOOK_DIR=.reaction/project-hooks
 
-all: network-create start-with-post-project-start-hook post-system-start-hook
+all: init
+
+###############################################################################
+### Init-Project
+### Initializes a project. Does not do common tasks shared between projects.
+###############################################################################
+define init-template
+init-$(1): $(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
+endef
+$(foreach p,$(REACTION_PROJECTS),$(eval $(call init-template,$(p))))
+
+###############################################################################
+### Init Project with System
+### Init project and run the post-system hook script.
+### Assumes dependencies are already started.
+###############################################################################
+define init-with-system-template
+init-with-system-$(1): init-$(1) post-system-start-$(1)
+endef
+$(foreach p,$(REACTION_PROJECTS),$(eval $(call init-with-system-template,$(p))))
+
+.PHONY: init
+init: $(foreach p,$(REACTION_PROJECTS),init-project-$(p)) post-system-start
 
 
 ###############################################################################
@@ -98,7 +120,7 @@ network-create-$(1):
 endef
 $(foreach p,$(REACTION_NETWORKS),$(eval $(call network-create-template,$(p))))
 
-.PHONY: create-networks
+.PHONY: network-create
 network-create: $(foreach p,$(REACTION_NETWORKS),network-create-$(p))
 
 ###############################################################################
@@ -205,7 +227,7 @@ start: $(foreach p,$(REACTION_PROJECTS),start-$(p))
 ### Invoked after all services in a project have been started.
 ###############################################################################
 define post-project-start-template
-start-with-post-project-start-hook-$(1): build-$(1) post-build-$(1) start-$(1)
+post-project-start-$(1):
 	@if [ -e "$(1)/$(HOOK_DIR)/post-project-start" ]; then \
 	  echo "Running post-project-start hook script for $(1)." \
 	  && "$(1)/$(HOOK_DIR)/post-project-start"; \
@@ -215,9 +237,6 @@ start-with-post-project-start-hook-$(1): build-$(1) post-build-$(1) start-$(1)
 endef
 $(foreach p,$(REACTION_PROJECTS),$(eval $(call post-project-start-template,$(p))))
 
-.PHONY: start-with-post-project-start-hook
-start-with-post-project-start-hook: $(foreach p,$(REACTION_PROJECTS),start-with-post-project-start-hook-$(p))
-
 ###############################################################################
 ### Post System Start Hook
 ### Invokes the post-system-start hook in the child projects if existent.
@@ -226,20 +245,20 @@ start-with-post-project-start-hook: $(foreach p,$(REACTION_PROJECTS),start-with-
 ### Note: The final echo is required otherwise output of post-system-hook is
 ###       not output.
 ###############################################################################
-define post-system-start-hook-template
-post-system-start-hook-$(1):
+define post-system-start-template
+post-system-start-$(1):
 	@if [ -e "$(1)/$(HOOK_DIR)/post-system-start" ]; then \
 	  echo "Running post-system-start hook script for $(1)." \
 	  && "$(1)/$(HOOK_DIR)/post-system-start" \
 	  && echo ""; \
 	else \
-	  echo "No post-start-system hook script for $(1). Skipping."; \
+	  echo "No post-system-start hook script for $(1). Skipping."; \
 	fi;
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call post-system-start-hook-template,$(p))))
+$(foreach p,$(REACTION_PROJECTS),$(eval $(call post-system-start-template,$(p))))
 
-.PHONY: post-system-start-hook
-post-system-start-hook: $(foreach p,$(REACTION_PROJECTS),post-system-start-hook-$(p))
+.PHONY: post-system-start
+post-system-start: $(foreach p,$(REACTION_PROJECTS),post-system-start-$(p))
 
 
 ###############################################################################
