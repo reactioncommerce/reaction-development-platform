@@ -62,7 +62,7 @@ endef
 $(foreach p,$(REACTION_PROJECTS),$(eval $(call init-with-system-template,$(p))))
 
 .PHONY: init
-init: $(foreach p,$(REACTION_PROJECTS),init-project-$(p)) post-system-start
+init: $(foreach p,$(REACTION_PROJECTS),init-$(p)) post-system-start
 
 
 ###############################################################################
