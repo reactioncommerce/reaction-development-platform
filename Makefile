@@ -29,7 +29,6 @@ REQUIRED_SOFTWARE=docker docker-compose git node yarn
 # Projects are started in order of this list.
 REACTION_PROJECTS=docker-confluent-platform \
 		  reaction-hydra \
-		  reaction-keycloak \
 		  reaction \
 		  reaction-next-starterkit
 
