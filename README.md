@@ -80,25 +80,24 @@ them.)
 | Network                    | Description                                    |
 | -------------------------- | ---------------------------------------------- |
 | reaction-api               | GraphQL and API traffic between services.      |
-| reaction-auth              | Access to identity and authorization services. |
+| auth.reaction.localhost    | Authentication and authorization services.     |
 | streams.reaction.localhost | Network for Confluent and Kafka communication. |
 
 ## Services
 
 These services will be running when the initial `make` command is complete:
 
-| Service                                             | Description                                                                                                                  |
-| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [GraphiQL](http://localhost:3030/graphiql)          | The [GraphiQL](https://github.com/graphql/graphiql) interface for GraphQL interaction.                                       |
-| [Confluent Control Center](http://localhost:9021)   | [Confluent Control Center](https://docs.confluent.io/current/control-center/docs/index.html)                                 |
-| Confluent Kafka                                     | Confluent Kafka - Confluent's distribution of the Kafka streaming platform.                                                  |
-| Confluent Schema Registry                           | Confluent Schema Registry - helps with storage and evolution of schemas.                                                     |
-| Confluent Zookeeper                                 | Confluent's distribute of Zookeeper.                                                                                         |
-| [Identity & Auth (Keycloak)](http://localhost:8080) | Administration interface for the Identity and Authorization service. Implemented with [Keycloak](https://www.keycloak.org/). |
-| [Identity Demo Console](http://localhost:8000)      | A custom Keycloak console that demonstrates integration with a client-side app.                                              |
-| [Reaction Devserver](http://localhost:3030)         | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                                                 |
-| [Reaction Meteor](http://localhost:3000)            | The Reaction Meteor application.                                                                                             |
-| [Reaction Next Starterkit](http://localhost:4000)   | Reaction UI built with [Next.JS](https://github.com/zeit/next.js/).                                                          |
+| Service                                           | Description                                                                                  |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [GraphiQL](http://localhost:3030/graphiql)        | The [GraphiQL](https://github.com/graphql/graphiql) interface for GraphQL interaction.       |
+| [Confluent Control Center](http://localhost:9021) | [Confluent Control Center](https://docs.confluent.io/current/control-center/docs/index.html) |
+| Confluent Kafka                                   | Confluent Kafka - Confluent's distribution of the Kafka streaming platform.                  |
+| Confluent Schema Registry                         | Confluent Schema Registry - helps with storage and evolution of schemas.                     |
+| Confluent Zookeeper                               | Confluent's distribute of Zookeeper.                                                         |
+| [OAuth2 Server (Hydra)](http://localhost:4444)    | [ORY Hydra][11] OAuth2 token server.                                                         |
+| [Reaction Devserver](http://localhost:3030)       | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                 |
+| [Reaction Meteor](http://localhost:3000)          | The Reaction Meteor application.                                                             |
+| [Reaction Next Starterkit](http://localhost:4000) | Reaction UI built with [Next.JS](https://github.com/zeit/next.js/).                          |
 
 ## Project Commands
 
@@ -131,3 +130,4 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [8]: https://github.com/reactioncommerce/reaction-platform "Reaction Platform"
 [9]: https://github.com/graphcool/graphql-playground "GraphQL Playground"
 [10]: https://github.com/reactioncommerce/reaction "Reaction"
+[11]: https://github.com/ory/hydra "ORY Hydra"
