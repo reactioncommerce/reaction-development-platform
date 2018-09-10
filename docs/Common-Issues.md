@@ -18,3 +18,14 @@ The name of the service and the port number will vary.
 
 Another process is bound to the port specified in the error message. Stop the
 service that's running on the port and start the service again.
+
+## could not find an available address pool
+
+### Description
+
+* If you are using certain VPNs under linux, you may see the following error from docker
+  * ` ERROR: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network`
+
+### Fix
+
+To work around this, disconnect your VPN, then retry your make command
