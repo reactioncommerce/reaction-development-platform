@@ -27,15 +27,13 @@ REQUIRED_SOFTWARE=docker docker-compose git node yarn
 # The project name must be in the ReactionCommerce Github org and the name must
 # match the Github project name.
 # Projects are started in order of this list.
-REACTION_PROJECTS=docker-confluent-platform \
-		  reaction-hydra \
+REACTION_PROJECTS=reaction-hydra \
 		  reaction \
 		  reaction-next-starterkit
 
 # List of user defined networks that should be created.
 REACTION_NETWORKS=auth.reaction.localhost \
 		  graphql.reaction.localhost \
-		  streams.reaction.localhost \
 		  reaction-api
 
 HOOK_DIR=.reaction/project-hooks
