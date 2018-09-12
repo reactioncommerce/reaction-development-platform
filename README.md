@@ -71,15 +71,11 @@ Platform networks in the Docker environment should be named as
 `*.reaction.localhost`. The `localhost` TLD is reserved and guaranteed to not
 conflict with a real TLD.
 
-(Please use this convention for all networks created in the future. We do have
-some existing networks that are not named like this and should work to transition
-them.)
-
 ### Network List
 
 | Network                    | Description                                    |
 | -------------------------- | ---------------------------------------------- |
-| reaction-api               | GraphQL and API traffic between services.      |
+| api.reaction.localhost               | GraphQL and API traffic between services.      |
 | auth.reaction.localhost    | Authentication and authorization services.     |
 
 ## Services

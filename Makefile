@@ -33,8 +33,7 @@ REACTION_PROJECTS=reaction-hydra \
 
 # List of user defined networks that should be created.
 REACTION_NETWORKS=auth.reaction.localhost \
-		  graphql.reaction.localhost \
-		  reaction-api
+		  api.reaction.localhost
 
 HOOK_DIR=.reaction/project-hooks
 
