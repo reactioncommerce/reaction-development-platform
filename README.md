@@ -71,17 +71,12 @@ Platform networks in the Docker environment should be named as
 `*.reaction.localhost`. The `localhost` TLD is reserved and guaranteed to not
 conflict with a real TLD.
 
-(Please use this convention for all networks created in the future. We do have
-some existing networks that are not named like this and should work to transition
-them.)
-
 ### Network List
 
 | Network                    | Description                                    |
 | -------------------------- | ---------------------------------------------- |
-| reaction-api               | GraphQL and API traffic between services.      |
+| api.reaction.localhost               | GraphQL and API traffic between services.      |
 | auth.reaction.localhost    | Authentication and authorization services.     |
-| streams.reaction.localhost | Network for Confluent and Kafka communication. |
 
 ## Services
 
@@ -90,10 +85,6 @@ These services will be running when the initial `make` command is complete:
 | Service                                           | Description                                                                                  |
 | ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [GraphiQL](http://localhost:3030/graphiql)        | The [GraphiQL](https://github.com/graphql/graphiql) interface for GraphQL interaction.       |
-| [Confluent Control Center](http://localhost:9021) | [Confluent Control Center](https://docs.confluent.io/current/control-center/docs/index.html) |
-| Confluent Kafka                                   | Confluent Kafka - Confluent's distribution of the Kafka streaming platform.                  |
-| Confluent Schema Registry                         | Confluent Schema Registry - helps with storage and evolution of schemas.                     |
-| Confluent Zookeeper                               | Confluent's distribute of Zookeeper.                                                         |
 | [OAuth2 Server (Hydra)](http://localhost:4444)    | [ORY Hydra][11] OAuth2 token server.                                                         |
 | [Reaction Devserver](http://localhost:3030)       | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                 |
 | [Reaction Meteor](http://localhost:3000)          | The Reaction Meteor application.                                                             |
