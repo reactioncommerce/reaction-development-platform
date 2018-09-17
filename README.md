@@ -84,11 +84,12 @@ These services will be running when the initial `make` command is complete:
 
 | Service                                           | Description                                                                                  |
 | ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [GraphiQL](http://localhost:3030/graphiql)        | The [GraphiQL](https://github.com/graphql/graphiql) interface for GraphQL interaction.       |
-| [OAuth2 Server (Hydra)](http://localhost:4444)    | [ORY Hydra][11] OAuth2 token server.                                                         |
-| [Reaction Devserver](http://localhost:3030)       | Development server for the Reaction [GraphQL](https://graphql.org/) backend.                 |
-| [Reaction Meteor](http://localhost:3000)          | The Reaction Meteor application.                                                             |
-| [Reaction Next Starterkit](http://localhost:4000) | Reaction UI built with [Next.JS](https://github.com/zeit/next.js/).                          |
+| [OAuth2 Server (Hydra)](http://localhost:4444) (http://localhost:4444)    | [ORY Hydra][11] OAuth2 token server.                                                         |
+| [Reaction Meteor](http://localhost:3000) (http://localhost:3000)          | The Reaction Meteor application, which includes the server API and the Meteor UI client.                                                             |
+| [Reaction NextJS Storefront](http://localhost:4000) (http://localhost:4000) | A starter Reaction storefront UI built with [Next.JS](https://github.com/zeit/next.js/).                          |
+
+### GraphQL Interface
+After running `make start`, you should be able to explore the GraphQL API at http://localhost:3000/graphiql. See [GraphiQL docs](https://github.com/graphql/graphiql)
 
 ## Project Commands
 
