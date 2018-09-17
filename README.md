@@ -2,7 +2,7 @@
 
 Reaction Platform is a customizable, real-time, reactive commerce solution.
 This repository is the quickest way to get started with [Reaction][10] and its
-supporting services.
+supporting services in a local development environment.
 
 ## Features
 
