@@ -53,6 +53,18 @@ This process may take some time. Behind the scenes `make` is
 * building custom, project Docker images
 * starting services
 
+If the `make` command fails at some point, you can run or rerun it for specific services with:
+
+```sh
+make init-<project-name>
+```
+
+Example:
+
+```sh
+make init-reaction-next-starterkit
+```
+
 ## Networked Services
 
 User-defined Docker networks are used to connect the Reaction services that run
@@ -97,13 +109,14 @@ These commands are used to control the system as a whole.
 
 Run these commands from the `reaction-platform` project root directory.
 
-| Command      | Description                                                                  |
-| ------------ | ---------------------------------------------------------------------------- |
-| `make`       | Boostraps the entire Reaction development environment in Docker.             |
-| `make stop`  | Stops all containers.                                                        |
-| `make start` | Starts all containers.                                                       |
-| `make rm`    | Removes all containers. Volumes are not removed.                             |
-| `make clean` | Removes all containers, networks, and volumes. Any volume data will be lost. |
+| Command                    | Description                                                                           |
+| -------------------------- | ------------------------------------------------------------------------------------- |
+| `make`                     | Boostraps the entire Reaction development environment in Docker.                      |
+| `make stop`                | Stops all containers.                                                                 |
+| `make start`               | Starts all containers.                                                                |
+| `make rm`                  | Removes all containers. Volumes are not removed.                                      |
+| `make clean`               | Removes all containers, networks, and volumes. Any volume data will be lost.          |
+| `make init-<project-name>` | Example: `make init-reaction-next-starterkit`. Does clone/setup for a single project. |
 
 ## Documentation
 
