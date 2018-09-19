@@ -23,9 +23,9 @@ Platform services will be cloned as child directories within this project.
 
 * [Git][5]
 * [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
-* [NodeJS][3]
+* [Node.js][3]
 * [Yarn][4]
-* A [Github][6] account with a [configured SSH key][7]
+* A [GitHub][6] account with a [configured SSH key][7]
 
 ## Getting started
 
@@ -48,7 +48,7 @@ make
 This process may take some time. Behind the scenes `make` is
 
 * checking that dependencies are present
-* cloning the sub projects from Github
+* cloning the sub projects from GitHub
 * downloading Docker images
 * building custom, project Docker images
 * starting services
@@ -75,7 +75,7 @@ conflict with a real TLD.
 
 | Network                    | Description                                    |
 | -------------------------- | ---------------------------------------------- |
-| api.reaction.localhost               | GraphQL and API traffic between services.      |
+| api.reaction.localhost     | GraphQL and API traffic between services.      |
 | auth.reaction.localhost    | Authentication and authorization services.     |
 
 ## Services
@@ -117,8 +117,8 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [3]: https://nodejs.org "NodeJS"
 [4]: https://yarnpkg.com/en/docs/install "Yarn"
 [5]: https://git-scm.com/ "Git"
-[6]: https://github.com/ "Github"
-[7]: https://github.com/settings/keys "Github SSH Keys"
+[6]: https://github.com/ "GitHub"
+[7]: https://github.com/settings/keys "GitHub SSH Keys"
 [8]: https://github.com/reactioncommerce/reaction-platform "Reaction Platform"
 [9]: https://github.com/graphcool/graphql-playground "GraphQL Playground"
 [10]: https://github.com/reactioncommerce/reaction "Reaction"
