@@ -69,6 +69,34 @@ Example:
 make init-reaction-next-starterkit
 ```
 
+**Bootstrapping with Particular Git Branches**
+
+The normal bootstrapping process will give you the latest released versions of the platform subprojects and is the recommended configuration for regular development. However, if you know you require a particular previous release or alternative git branch, you can take the following steps to bring up the platform with the particular versions you need. These steps are an alternative to the standard bootstrapping approach, you should do one or the other, not both.
+
+From the project directory run
+
+```sh
+make clone
+```
+
+Within the necessary subproject directory or directories run the `git checkout <your-release-tag-or-branch>` commands you need to get the specific subproject versions you need checked out.
+
+Example:
+
+```sh
+cd reaction-next-starterkit
+git checkout develop
+```
+
+Then run the following
+
+```sh
+cd .. # cd into reaction-platform
+make
+```
+
+This will proceed with the bootstrapping process using the versions you have explicitly checked out
+
 ## Networked Services
 
 User-defined Docker networks are used to connect the Reaction services that run
