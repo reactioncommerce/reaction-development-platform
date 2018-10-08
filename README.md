@@ -21,6 +21,10 @@ Platform services will be cloned as child directories within this project.
 
 ## Prerequisites
 
+* [GNU Make](https://www.gnu.org/software/make/)
+  * macos and linux users will have a suitable version bundled with the OS
+* Bourne Shell and POSIX tools (sh, grep, sed, awk, etc)
+  * macos and linux users will have a suitable version bundled with the OS
 * [Git][5]
 * [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
 * [Node.js][3]
