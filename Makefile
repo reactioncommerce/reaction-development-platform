@@ -65,8 +65,13 @@ init: $(foreach p,$(REACTION_PROJECTS),init-$(p)) post-system-start
 ###############################################################################
 ### Targets to verify Github is configured correctly.
 ###############################################################################
-ssh-public-key: ~/.ssh/id_rsa.pub
-	@echo "SSH public key verified at ~/.ssh/id_rsa.pub"
+ssh-public-key:
+	@if [ -z $$(find "${HOME}/.ssh" -name 'id_*.pub') ]; then \
+		echo "No ssh public key found. Generating one via ssh-keygen."; \
+		ssh-keygen; \
+	else \
+		echo "ssh public key verified"; \
+	fi
 
 ~/.ssh/id_rsa.pub:
 	@ssh-keygen
