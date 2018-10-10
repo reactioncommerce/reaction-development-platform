@@ -61,25 +61,15 @@ $(foreach p,$(REACTION_PROJECTS),$(eval $(call init-with-system-template,$(p))))
 .PHONY: init
 init: $(foreach p,$(REACTION_PROJECTS),init-$(p)) post-system-start
 
-
 ###############################################################################
 ### Targets to verify Github is configured correctly.
 ###############################################################################
-ssh-public-key: ~/.ssh/id_rsa.pub
-	@echo "SSH public key verified at ~/.ssh/id_rsa.pub"
-
-~/.ssh/id_rsa.pub:
-	@ssh-keygen
-
-github-configured: dependencies ssh-public-key
+github-configured: dependencies
 	@(ssh -T git@github.com 2>&1 \
 	  | grep "successfully authenticated" >/dev/null \
 	  && echo "Github login verified.") \
-	|| (echo "You need to add your public key to Github" \
-	&& echo "Github settings URL: https://github.com/settings/keys" \
-	&& echo "== Start copy at next line ===" \
-	&& cat ~/.ssh/id_rsa.pub \
-	&& echo "== End copy at above line ===" \
+	|| (echo "You need to configure an ssh key with access to github" \
+	&& echo "See https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/ for instructions" \
 	&& exit 101)
 
 
