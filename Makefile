@@ -3,7 +3,7 @@
 # ecosystem. It performs tasks like:
 #
 #   * Verify dependencies are present
-#   * Clone git projects
+#   * Clone git projects, checkout a particular reference
 #   * Preconfiguration and subproject bootstrapping
 #   * Launching subprojects
 #   * Teardown tasks with varying destructiveness
@@ -23,13 +23,18 @@
 # A simple check to determine the tool is available. No version check, etc.
 REQUIRED_SOFTWARE=docker docker-compose git node yarn
 
-# List of projects that will be cloned and integrated into the system.
-# The project name must be in the ReactionCommerce Github org and the name must
-# match the Github project name.
-# Projects are started in order of this list.
-REACTION_PROJECTS=reaction-hydra \
-		  reaction \
-		  reaction-next-starterkit
+# Defined here are the subprojects in a comma-separated format
+# GIT_REPO_URL,SUBDIR_NAME,TAG
+# GIT_REPO_URL is the URL of the git repository
+# SUBDIR_NAME is just the directory name itself
+# TAG is the git tag or branch to checkout
+# Projects will be started in this order
+define reaction-repos
+git@github.com:/reactioncommerce/reaction-hydra.git,reaction-hydra,master \
+git@github.com:/reactioncommerce/reaction.git,reaction,master \
+git@github.com:/reactioncommerce/reaction-next-starterkit.git,reaction-next-starterkit,master
+endef
+REACTION_PROJECTS=$(foreach rr,$(reaction-repos),$(shell echo $(rr) | cut -d , -f 2))
 
 # List of user defined networks that should be created.
 REACTION_NETWORKS=auth.reaction.localhost \
@@ -124,17 +129,32 @@ $(foreach p,$(REACTION_NETWORKS),$(eval $(call network-remove-template,$(p))))
 network-remove: $(foreach p,$(REACTION_NETWORKS),network-remove-$(p))
 
 ###############################################################################
-### Github cloning
+### Git cloning
 ###############################################################################
 define git-clone-template
-$(1):
-	@git clone "git@github.com:reactioncommerce/$(1).git"
+$(2):
+	git clone "$(1)" "$(2)"
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call git-clone-template,$(p))))
+# Call the git-clone-template function with GIT_REPO_URL and SUBDIR_NAME as arguments
+# CSV fields 1 and 2
+$(foreach rr,$(reaction-repos),$(eval $(call git-clone-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2))))
 
 .PHONY: clone
 clone: github-configured $(foreach p,$(REACTION_PROJECTS),$(p))
 
+###############################################################################
+### Git checkout
+###############################################################################
+define git-checkout-template
+checkout-$(1): $(1)
+	cd $(1) && git checkout "$(2)"
+endef
+# Call the git-checkout-template function with SUBDIR_NAME and TAG as arguments
+# CSV fields 2 and 3
+$(foreach rr,$(reaction-repos),$(eval $(call git-checkout-template,$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
+
+.PHONY: checkout
+checkout: clone $(foreach p,$(REACTION_PROJECTS),checkout-$(p))
 
 ###############################################################################
 ### Pre Build Hook
