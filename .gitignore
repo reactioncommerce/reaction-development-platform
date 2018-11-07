@@ -1,3 +1,4 @@
-reaction
-reaction-hydra
-reaction-next-starterkit
+!^.github/
+!^.docs/
+config.local.mk
+*/
