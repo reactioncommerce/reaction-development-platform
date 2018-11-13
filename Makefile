@@ -19,29 +19,21 @@
 #   102: Required dependency is not installed.
 #
 
-# List of tools that must be installed.
-# A simple check to determine the tool is available. No version check, etc.
-REQUIRED_SOFTWARE=docker docker-compose git node yarn
+###############################################################################
+### Configuration
+### Load configuration from external files. Configuration variables defined in
+### later files have precedent and will overwrite those defined in previous
+### files. The -include directive ensures that no error is thrown if a file is
+### not found, which is the case if config.local.mk does not exist.
+###############################################################################
+-include config.mk config.local.mk
 
-# Defined here are the subprojects in a comma-separated format
-# GIT_REPO_URL,SUBDIR_NAME,TAG
-# GIT_REPO_URL is the URL of the git repository
-# SUBDIR_NAME is just the directory name itself
-# TAG is the git tag or branch to checkout
-# Projects will be started in this order
-define reaction-repos
-git@github.com:/reactioncommerce/reaction-hydra.git,reaction-hydra,master \
-git@github.com:/reactioncommerce/reaction.git,reaction,master \
-git@github.com:/reactioncommerce/reaction-next-starterkit.git,reaction-next-starterkit,master
-endef
-REACTION_PROJECTS=$(foreach rr,$(reaction-repos),$(shell echo $(rr) | cut -d , -f 2))
+SUBPROJECTS=$(foreach rr,$(SUBPROJECT_REPOS),$(shell echo $(rr) | cut -d , -f 2))
 
-# List of user defined networks that should be created.
-REACTION_NETWORKS=auth.reaction.localhost \
-		  api.reaction.localhost
 
-HOOK_DIR=.reaction/project-hooks
-
+###############################################################################
+### Tasks
+###############################################################################
 all: init
 
 ###############################################################################
@@ -51,7 +43,7 @@ all: init
 define init-template
 init-$(1): $(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call init-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call init-template,$(p))))
 
 ###############################################################################
 ### Init Project with System
@@ -61,10 +53,10 @@ $(foreach p,$(REACTION_PROJECTS),$(eval $(call init-template,$(p))))
 define init-with-system-template
 init-with-system-$(1): init-$(1) post-system-start-$(1)
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call init-with-system-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call init-with-system-template,$(p))))
 
 .PHONY: init
-init: $(foreach p,$(REACTION_PROJECTS),init-$(p)) post-system-start
+init: $(foreach p,$(SUBPROJECTS),init-$(p)) post-system-start
 
 ###############################################################################
 ### Targets to verify Github is configured correctly.
@@ -100,7 +92,7 @@ dependencies: $(foreach pkg,$(REQUIRED_SOFTWARE),dependency-$(pkg))
 
 ###############################################################################
 ### Create Docker Networks
-### Create all networks defined in the REACTION_NETWORKS variable.
+### Create all networks defined in the DOCKER_NETWORKS variable.
 ### Networks provide a way to loosely couple the projects and allow them to
 ### communicate with each other. We'll use dependencies on external networks
 ### rather than dependencies on other projects. Networks are lightweight and
@@ -110,23 +102,23 @@ define network-create-template
 network-create-$(1):
 	@docker network create "$(1)" || true
 endef
-$(foreach p,$(REACTION_NETWORKS),$(eval $(call network-create-template,$(p))))
+$(foreach p,$(DOCKER_NETWORKS),$(eval $(call network-create-template,$(p))))
 
 .PHONY: network-create
-network-create: $(foreach p,$(REACTION_NETWORKS),network-create-$(p))
+network-create: $(foreach p,$(DOCKER_NETWORKS),network-create-$(p))
 
 ###############################################################################
 ### Remove Docker Networks
-### Remove all networks defined in the REACTION_NETWORKS variable.
+### Remove all networks defined in the DOCKER_NETWORKS variable.
 ###############################################################################
 define network-remove-template
 network-remove-$(1):
 	@docker network rm "$(1)" || true
 endef
-$(foreach p,$(REACTION_NETWORKS),$(eval $(call network-remove-template,$(p))))
+$(foreach p,$(DOCKER_NETWORKS),$(eval $(call network-remove-template,$(p))))
 
 .PHONY: network-remove
-network-remove: $(foreach p,$(REACTION_NETWORKS),network-remove-$(p))
+network-remove: $(foreach p,$(DOCKER_NETWORKS),network-remove-$(p))
 
 ###############################################################################
 ### Git cloning
@@ -137,10 +129,10 @@ $(2):
 endef
 # Call the git-clone-template function with GIT_REPO_URL and SUBDIR_NAME as arguments
 # CSV fields 1 and 2
-$(foreach rr,$(reaction-repos),$(eval $(call git-clone-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2))))
+$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-clone-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2))))
 
 .PHONY: clone
-clone: github-configured $(foreach p,$(REACTION_PROJECTS),$(p))
+clone: github-configured $(foreach p,$(SUBPROJECTS),$(p))
 
 ###############################################################################
 ### Git checkout
@@ -151,10 +143,10 @@ checkout-$(1): $(1)
 endef
 # Call the git-checkout-template function with SUBDIR_NAME and TAG as arguments
 # CSV fields 2 and 3
-$(foreach rr,$(reaction-repos),$(eval $(call git-checkout-template,$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
+$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-checkout-template,$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
 
 .PHONY: checkout
-checkout: clone $(foreach p,$(REACTION_PROJECTS),checkout-$(p))
+checkout: clone $(foreach p,$(SUBPROJECTS),checkout-$(p))
 
 ###############################################################################
 ### Pre Build Hook
@@ -170,10 +162,10 @@ prebuild-$(1): $(1)
 	  echo "No pre-build hook script for $(1). Skipping."; \
 	fi;
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call prebuild-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call prebuild-template,$(p))))
 
 .PHONY: prebuild
-prebuild: $(foreach p,$(REACTION_PROJECTS),prebuild-$(p))
+prebuild: $(foreach p,$(SUBPROJECTS),prebuild-$(p))
 
 
 ###############################################################################
@@ -187,10 +179,10 @@ build-$(1): prebuild-$(1)
 	@cd $(1) \
 	  && docker-compose build --no-cache --pull
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call build-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call build-template,$(p))))
 
 .PHONY: build
-build: $(foreach p,$(REACTION_PROJECTS),build-$(p))
+build: $(foreach p,$(SUBPROJECTS),build-$(p))
 
 
 ###############################################################################
@@ -207,10 +199,10 @@ post-build-$(1): build-$(1)
 	  echo "No post-build hook script for $(1). Skipping."; \
 	fi;
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call post-build-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call post-build-template,$(p))))
 
 .PHONY: post-build
-post-build: $(foreach p,$(REACTION_PROJECTS),post-build-$(p))
+post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 
 
 ###############################################################################
@@ -222,10 +214,10 @@ start-$(1):
 	@cd $(1) \
 	  && docker-compose up -d
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call start-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call start-template,$(p))))
 
 .PHONY: start
-start: $(foreach p,$(REACTION_PROJECTS),start-$(p))
+start: $(foreach p,$(SUBPROJECTS),start-$(p))
 
 
 ###############################################################################
@@ -242,7 +234,7 @@ post-project-start-$(1):
 	  echo "No post-project-start hook script for $(1). Skipping."; \
 	fi;
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call post-project-start-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call post-project-start-template,$(p))))
 
 ###############################################################################
 ### Post System Start Hook
@@ -262,10 +254,10 @@ post-system-start-$(1):
 	  echo "No post-system-start hook script for $(1). Skipping."; \
 	fi;
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call post-system-start-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call post-system-start-template,$(p))))
 
 .PHONY: post-system-start
-post-system-start: $(foreach p,$(REACTION_PROJECTS),post-system-start-$(p))
+post-system-start: $(foreach p,$(SUBPROJECTS),post-system-start-$(p))
 
 
 ###############################################################################
@@ -277,10 +269,10 @@ stop-$(1):
 	@cd $(1) \
 	  && docker-compose stop
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call stop-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call stop-template,$(p))))
 
 .PHONY: stop
-stop: $(foreach p,$(REACTION_PROJECTS),stop-$(p))
+stop: $(foreach p,$(SUBPROJECTS),stop-$(p))
 
 ###############################################################################
 ### rm
@@ -292,10 +284,10 @@ rm-$(1):
 	@cd $(1) \
 	  && docker-compose rm --stop --force
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call rm-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call rm-template,$(p))))
 
 .PHONY: rm
-rm: $(foreach p,$(REACTION_PROJECTS),rm-$(p))
+rm: $(foreach p,$(SUBPROJECTS),rm-$(p))
 
 ###############################################################################
 ### Clean
@@ -307,10 +299,10 @@ clean-$(1):
 	@cd $(1) \
 	  && docker-compose down -v --rmi local --remove-orphans
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call clean-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call clean-template,$(p))))
 
 .PHONY: clean
-clean: $(foreach p,$(REACTION_PROJECTS),clean-$(p)) network-remove
+clean: $(foreach p,$(SUBPROJECTS),clean-$(p)) network-remove
 
 ###############################################################################
 ### Destroy
@@ -324,10 +316,10 @@ define destroy-template
 destroy-$(1): clean
 	@rm -Rf $(1)
 endef
-$(foreach p,$(REACTION_PROJECTS),$(eval $(call destroy-template,$(p))))
+$(foreach p,$(SUBPROJECTS),$(eval $(call destroy-template,$(p))))
 
 .PHONY: destroy
-destroy: network-remove $(foreach p,$(REACTION_PROJECTS),destroy-$(p))
+destroy: network-remove $(foreach p,$(SUBPROJECTS),destroy-$(p))
 
 ###############################################################################
 ### Dynamically list all targets.
@@ -335,4 +327,4 @@ destroy: network-remove $(foreach p,$(REACTION_PROJECTS),destroy-$(p))
 ###############################################################################
 .PHONY: list
 list:
-	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs -n 1
+	@$(MAKE) -pRrq -f $(MAKEFILE_LIST) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs -n 1
