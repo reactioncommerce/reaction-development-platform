@@ -13,10 +13,10 @@
 # List of tools that must be installed.
 # A simple check to determine the tool is available. No version check, etc.
 define REQUIRED_SOFTWARE =
-docker
-docker-compose
-git
-node
+docker \
+docker-compose \
+git \
+node \
 yarn
 endef
 
