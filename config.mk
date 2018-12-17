@@ -12,7 +12,7 @@
 
 # List of tools that must be installed.
 # A simple check to determine the tool is available. No version check, etc.
-define REQUIRED_SOFTWARE =
+define REQUIRED_SOFTWARE
 docker \
 docker-compose \
 git \
@@ -33,7 +33,7 @@ git@github.com:/reactioncommerce/reaction-next-starterkit.git,reaction-next-star
 endef
 
 # List of user defined networks that should be created.
-define DOCKER_NETWORKS =
+define DOCKER_NETWORKS
 auth.reaction.localhost \
 api.reaction.localhost \
 streams.reaction.localhost
