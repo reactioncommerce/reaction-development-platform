@@ -41,7 +41,7 @@ all: init
 ### Initializes a project. Does not do common tasks shared between projects.
 ###############################################################################
 define init-template
-init-$(1): $(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
+init-$(1): $(1) checkout-$(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call init-template,$(p))))
 
