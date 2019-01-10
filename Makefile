@@ -41,7 +41,7 @@ all: init
 ### Initializes a project. Does not do common tasks shared between projects.
 ###############################################################################
 define init-template
-init-$(1): $(1) checkout-$(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
+init-$(1): $(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call init-template,$(p))))
 
@@ -125,25 +125,26 @@ network-remove: $(foreach p,$(DOCKER_NETWORKS),network-remove-$(p))
 ###############################################################################
 define git-clone-template
 $(2):
-	git clone "$(1)" "$(2)"
+	if [ ! -d "$(2)" ] ; then \
+	  git clone "$(1)" "$(2)"; \
+	  cd $(1) && git checkout "$(3)" \
+	fi
 endef
-# Call the git-clone-template function with GIT_REPO_URL and SUBDIR_NAME as arguments
-# CSV fields 1 and 2
-$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-clone-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2))))
+$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-clone-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
 
 .PHONY: clone
 clone: github-configured $(foreach p,$(SUBPROJECTS),$(p))
 
 ###############################################################################
 ### Git checkout
+### Checkout the branch configured in the platform settings.
+### Does not gracefully deal with conflicts or other problems.
 ###############################################################################
 define git-checkout-template
-checkout-$(1): $(1)
-	cd $(1) && git checkout "$(2)"
+checkout-$(2): $(2)
+	cd $(2) && git checkout "$(3)"
 endef
-# Call the git-checkout-template function with SUBDIR_NAME and TAG as arguments
-# CSV fields 2 and 3
-$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-checkout-template,$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
+$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-checkout-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
 
 .PHONY: checkout
 checkout: clone $(foreach p,$(SUBPROJECTS),checkout-$(p))
