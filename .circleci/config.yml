@@ -1,0 +1,26 @@
+version: 2
+
+# To test this file locally, try this incantation
+# circleci local execute --job test --revision master --skip-checkout=false \
+#   --repo-url https://github.com/reactioncommerce/reaction-platform.git
+
+# The following stanza defines a map named defaults with a variable that may be
+# inserted using the YAML merge (<<: *) key later in the file to save some
+# typing. See http://yaml.org/type/merge.html for details.
+defaults: &defaults
+  docker:
+    - image: circleci/node:8-stretch
+
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: make list
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test:
+          context: reaction-validation
