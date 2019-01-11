@@ -127,7 +127,7 @@ define git-clone-template
 $(2):
 	if [ ! -d "$(2)" ] ; then \
 	  git clone "$(1)" "$(2)"; \
-	  cd $(1) && git checkout "$(3)" \
+	  cd $(2) && git checkout "$(3)"; \
 	fi
 endef
 $(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-clone-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
