@@ -27,9 +27,9 @@ endef
 # TAG is the git tag or branch to checkout
 # Projects will be started in this order
 define SUBPROJECT_REPOS
-git@github.com:/reactioncommerce/reaction-hydra.git,reaction-hydra,master \
-git@github.com:/reactioncommerce/reaction.git,reaction,master \
-git@github.com:/reactioncommerce/reaction-next-starterkit.git,reaction-next-starterkit,master
+git@github.com:/reactioncommerce/reaction-hydra.git,reaction-hydra,v2.0.0-rc.9 \
+git@github.com:/reactioncommerce/reaction.git,reaction,v2.0.0-rc.9 \
+git@github.com:/reactioncommerce/reaction-next-starterkit.git,reaction-next-starterkit,v2.0.0-rc.9
 endef
 
 # List of user defined networks that should be created.
