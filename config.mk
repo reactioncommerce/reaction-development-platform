@@ -29,7 +29,7 @@ endef
 define SUBPROJECT_REPOS
 git@github.com:/reactioncommerce/reaction-hydra.git,reaction-hydra,v2.0.0-rc.11 \
 git@github.com:/reactioncommerce/reaction.git,reaction,v2.0.0-rc.11 \
-git@github.com:/reactioncommerce/reaction-next-starterkit.git,reaction-next-starterkit,v2.0.0-rc.11
+git@github.com:/reactioncommerce/example-storefront.git,example-storefront,v2.0.0-rc.11
 endef
 
 # List of user defined networks that should be created.
