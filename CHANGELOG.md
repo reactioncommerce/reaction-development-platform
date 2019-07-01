@@ -1,3 +1,6 @@
+# v2.0.0-rc.12
+This is our fourth official release candidate for this project. This project should be considered pre-release until we've released the final 2.0.0 version.
+
 # v2.0.0-rc.11
 This is our third official release candidate for this project. This project should be considered pre-release until we've released the final 2.0.0 version.
 
