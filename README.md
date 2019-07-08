@@ -133,7 +133,7 @@ These services will be running when the initial `make` command is complete:
 | [Example Storefront][13] (http://localhost:4000) | An example Reaction storefront UI built with [Next.JS](https://github.com/zeit/next.js/).                          |
 
 ### GraphQL Interface
-After running `make start`, you should be able to explore the GraphQL API at http://localhost:3000/graphiql. See [GraphiQL docs](https://github.com/graphql/graphiql)
+After running `make start`, you should be able to explore the GraphQL API at http://localhost:3000/graphql-beta. See [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground/).
 
 ## Project Commands
 
