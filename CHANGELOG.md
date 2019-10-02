@@ -1,3 +1,6 @@
+# v2.6.0
+This is minor version update coordinated with [Reaction](https://github.com/reactioncommerce/reaction), our [Example Storefront](https://github.com/reactioncommerce/example-storefront) and [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra).
+
 # v2.5.0
 This is minor version update coordinated with [Reaction](https://github.com/reactioncommerce/reaction), our [Example Storefront](https://github.com/reactioncommerce/example-storefront) and [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra).
 
