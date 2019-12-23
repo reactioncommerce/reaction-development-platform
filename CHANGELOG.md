@@ -1,9 +1,15 @@
+# v3.0.0-alpha.2
+
+This alpha release bumps the versions of
+[reaction](https://github.com/reactioncommerce/reaction/tree/v3.0.0-alpha.2)
+and [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-alpha.2)
+to their latest alpha releases.
+
 # v3.0.0-alpha
 
 This is a major update to keep this project in sync with
-[reaction v3.0.0-alpha](https://github.com/reactioncommerce/reaction),
-[example-storefront v3.0.0-alpha](https://github.com/reactioncommerce/example-storefront),
-and [reaction-platform v3.0.0-alpha](https://github.com/reactioncommerce/reaction-platform).
+[reaction v3.0.0-alpha](https://github.com/reactioncommerce/reaction/tree/v3.0.0-alpha)
+and [example-storefront v3.0.0-alpha](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-alpha).
 
 # v2.9.0
 This is minor version update coordinated with [Reaction](https://github.com/reactioncommerce/reaction), our [Example Storefront](https://github.com/reactioncommerce/example-storefront) and [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra).
