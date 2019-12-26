@@ -154,13 +154,15 @@ Run these commands from the `reaction-platform` project root directory.
 
 You may refer to each sub-project's README for additonal operation details.
 
-| Sub-project      | Documentation                                                                  |
-| ------------ | ---------------------------------------------------------------------------- |
-| `reaction`       | [Reaction Documentation][14]             |
-| `reaction-hydra`  | [`reaction-hydra`][12], [`ory/hydra`][11]                                                        |
-| `example-storefront` | [Example Storefront docs][15]
+| Sub-project                | Description           | Documentation                                                          |
+| -------------------------- | ----------------------|----------------------------------------------------------------------- |
+| [`reaction`][10]           | GraphQL API           | [Reaction API Documentation][14]                                       |
+| [`reaction-hydra`][12]     | Authentication server | [Reaction Hydra Readme][16], [Ory Hydra docs][11]                         |
+| [`reaction-identity`][17]  | Identity service      | [Reaction Identity Readme][18]                                         |
+| [`reaction-admin`][19]     | Classic Admin UI      | [Reaction Admin Readme][20]                                            |
+| [`example-storefront`][13] | Example Storefront    | [Example Storefront docs][15]                                          |
 
-For tips on developing on Docker, read our [Docker docs](https://docs.reactioncommerce.com/docs/installation-docker-development).
+For tips on developing with Docker, read our [Docker docs](https://docs.reactioncommerce.com/docs/installation-docker-development).
 
 ## License
 
@@ -182,3 +184,9 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [13]: https://github.com/reactioncommerce/example-storefront "Example Storefront"
 [14]: https://docs.reactioncommerce.com "Reaction Documentation"
 [15]: https://github.com/reactioncommerce/example-storefront/tree/master/docs "Example Storefront docs"
+[16]: https://github.com/reactioncommerce/reaction-hydra/blob/master/README.md "Reaction Hydra Readme"
+[17]: https://github.com/reactioncommerce/reaction-identity "Reaction Identity"
+[18]: https://github.com/reactioncommerce/reaction-identity/blob/trunk/README.md "Reaction Identity Readme"
+[19]: https://github.com/reactioncommerce/reaction-admin "Reaction Admin"
+[20]: https://github.com/reactioncommerce/reaction-admin/blob/trunk/README.md "Reaction Admin Readme"
+
