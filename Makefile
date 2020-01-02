@@ -209,10 +209,15 @@ post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 ###############################################################################
 ### Start
 ### Starts services with `docker-compose up -d`
+###
+### Pull the specified image tags every time. Tags are constantly being updated
+### to point to different image IDs, and there is less to debug if we can be
+### reasonably sure that you're always starting the latest image with that tag.
 ###############################################################################
 define start-template
 start-$(1):
 	@cd $(1) \
+	  && docker-compose pull \
 	  && docker-compose up -d
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call start-template,$(p))))
