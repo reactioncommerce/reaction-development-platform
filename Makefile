@@ -217,7 +217,7 @@ post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 define start-template
 start-$(1):
 	@cd $(1) \
-	  && docker-compose pull
+	  && docker-compose pull \
 	  && docker-compose up -d
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call start-template,$(p))))
