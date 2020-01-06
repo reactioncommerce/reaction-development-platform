@@ -6,7 +6,7 @@ supporting services in a local development environment.
 
 ## Features
 
-* An ultra modern, enterprise-ready, real-time commerce platform.
+* A modern, enterprise-ready, real-time commerce platform.
 * A microservices based architecture.
 * Docker based development environment.
 * Launched and configured with a single CLI command.
