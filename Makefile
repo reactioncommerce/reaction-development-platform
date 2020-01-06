@@ -213,12 +213,15 @@ post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 ### Pull the specified image tags every time. Tags are constantly being updated
 ### to point to different image IDs, and there is less to debug if we can be
 ### reasonably sure that you're always starting the latest image with that tag.
+###
+### We are purposely running dc up even if dc pull fails. Our Meteor project DC
+### config uses `image` as a desired image tag for `build` when in dev mode. But
+### `dc pull` seems to have a bug where it doesn't treat it this way and tries
+### to pull it.
 ###############################################################################
 define start-template
 start-$(1):
-	@cd $(1) \
-	  && docker-compose pull \
-	  && docker-compose up -d
+	@cd $(1) && docker-compose pull; docker-compose up -d
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call start-template,$(p))))
 
