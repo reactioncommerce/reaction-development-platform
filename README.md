@@ -6,7 +6,7 @@ supporting services in a local development environment.
 
 ## Features
 
-* An ultra modern, enterprise-ready, real-time commerce platform.
+* A modern, enterprise-ready, real-time commerce platform.
 * A microservices based architecture.
 * Docker based development environment.
 * Launched and configured with a single CLI command.
@@ -14,9 +14,9 @@ supporting services in a local development environment.
 ## Prerequisites
 
 * [GNU Make](https://www.gnu.org/software/make/)
-  * MacOS and linux users will have a suitable version bundled with the OS
+  * MacOS and Linux users will have a suitable version bundled with the OS
 * Bourne Shell and POSIX tools (sh, grep, sed, awk, etc)
-  * MacOS and linux users will have a suitable version bundled with the OS
+  * MacOS and Linux users will have a suitable version bundled with the OS
 * [Git][5]
 * [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
 * [Node.js][3]
@@ -45,9 +45,9 @@ These services will be running when the initial `make` command is complete:
 | Service                                             | Description                                                                                                                                                                                         |
 |-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [OAuth2 Server (Hydra)][12] (http://localhost:4444) | [ORY Hydra][11] OAuth2 token server.                                                                                                                                                                |
-| [Reaction Identity][16] (http://localhost:4100)     | The OAuth2-compatible user interface for Reaction identity, such as login and registration.                                                                                                         |
+| [Reaction Identity][17] (http://localhost:4100)     | The OAuth2-compatible user interface for Reaction Identity, such as login and registration.                                                                                                         |
 | [Reaction API][10] (http://localhost:3000)          | The Reaction API, which includes [a GraphQL endpoint](http://localhost:3000/graphql-beta). See [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground/). |
-| [Reaction Admin][17] (http://localhost:4080)        | A user interface for administrators and shop managers to configure shops, manage products, and process orders.                                                                                      |
+| [Reaction Admin][19] (http://localhost:4080)        | A user interface for administrators and shop managers to configure shops, manage products, and process orders.                                                                                      |
 | [Example Storefront][13] (http://localhost:4000)    | An example Reaction storefront UI built with [Next.JS](https://github.com/zeit/next.js/).                                                                                                           |
 
 If the `make` command fails at some point, you can run or rerun it for specific services with:
@@ -144,13 +144,29 @@ conflict with a real TLD.
 
 You may refer to each sub-project's README for additional operation details.
 
-| Sub-project          | Documentation                             |
-|----------------------|-------------------------------------------|
-| `reaction`           | [Reaction Documentation][14]              |
-| `reaction-hydra`     | [`reaction-hydra`][12], [`ory/hydra`][11] |
-| `example-storefront` | [Example Storefront docs][15]             |
+| Sub-project                | Description           | Documentation                                                          |
+| -------------------------- | ----------------------|----------------------------------------------------------------------- |
+| [`reaction`][10]           | GraphQL API           | [Reaction API Documentation][14]                                       |
+| [`reaction-hydra`][12]     | Authentication server | [Reaction Hydra Readme][16], [Ory Hydra docs][11]                         |
+| [`reaction-identity`][17]  | Identity service      | [Reaction Identity Readme][18]                                         |
+| [`reaction-admin`][19]     | Classic Admin UI      | [Reaction Admin Readme][20]                                            |
+| [`example-storefront`][13] | Example Storefront    | [Example Storefront docs][15]                                          |
 
-For tips on developing on Docker, read our [Docker docs](https://docs.reactioncommerce.com/docs/installation-docker-development).
+For tips on developing with Docker, read our [Docker docs](https://docs.reactioncommerce.com/docs/installation-docker-development).
+
+### Developer Certificate of Origin
+We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing-off all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:
+```
+Signed-off-by: Jane Doe <jane.doe@example.com>
+```
+
+You can sign-off your commit automatically with Git by using `git commit -s` if you have your `user.name` and `user.email` set as part of your Git configuration.
+
+We ask that you use your real full name (please no anonymous contributions or pseudonyms) and a real email address. By signing-off your commit you are certifying that you have the right to submit it under the [GNU GPLv3 Licensed](./LICENSE.md).
+
+We use the [Probot DCO GitHub app](https://github.com/apps/dco) to check for DCO sign-offs of every commit.
+
+If you forget to sign-off your commits, the DCO bot will remind you and give you detailed instructions for how to amend your commits to add a signature.
 
 ## License
 
@@ -172,5 +188,8 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [13]: https://github.com/reactioncommerce/example-storefront "Example Storefront"
 [14]: https://docs.reactioncommerce.com "Reaction Documentation"
 [15]: https://github.com/reactioncommerce/example-storefront/tree/master/docs "Example Storefront docs"
-[16]: https://github.com/reactioncommerce/reaction-identity "Reaction Identity"
-[17]: https://github.com/reactioncommerce/reaction-admin "Reaction Admin"
+[16]: https://github.com/reactioncommerce/reaction-hydra/blob/master/README.md "Reaction Hydra Readme"
+[17]: https://github.com/reactioncommerce/reaction-identity "Reaction Identity"
+[18]: https://github.com/reactioncommerce/reaction-identity/blob/trunk/README.md "Reaction Identity Readme"
+[19]: https://github.com/reactioncommerce/reaction-admin "Reaction Admin"
+[20]: https://github.com/reactioncommerce/reaction-admin/blob/trunk/README.md "Reaction Admin Readme"
