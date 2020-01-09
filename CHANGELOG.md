@@ -1,3 +1,12 @@
+# v3.0.0-alpha.3
+
+This alpha release bumps the following projects to their latest alpha releases:
+
+- [reaction](https://github.com/reactioncommerce/reaction/tree/v3.0.0-alpha.3)
+- [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-alpha.3)
+- [reaction-identity](https://github.com/reactioncommerce/reaction-identity/tree/v3.0.0-alpha.2)
+- [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0-alpha.2)
+
 # v3.0.0-alpha.2
 
 This alpha release bumps the versions of
