@@ -142,7 +142,7 @@ clone: github-configured $(foreach p,$(SUBPROJECTS),$(p))
 ###############################################################################
 define git-checkout-template
 checkout-$(2): $(2)
-	cd $(2) && git checkout "$(3)"
+	cd $(2) && git fetch && git checkout "$(3)"
 endef
 $(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-checkout-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
 
