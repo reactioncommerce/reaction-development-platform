@@ -1,3 +1,13 @@
+# v3.0.0-beta
+
+This beta release bumps the following projects to their beta releases:
+
+- [reaction](https://github.com/reactioncommerce/reaction/tree/v3.0.0-beta)
+- [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-beta)
+- [reaction-admin](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta)
+- [reaction-identity](https://github.com/reactioncommerce/reaction-identity/tree/v3.0.0-beta)
+- [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0-beta)
+
 # v3.0.0-alpha.3
 
 This alpha release bumps the following projects to their latest alpha releases:
