@@ -205,6 +205,29 @@ $(foreach p,$(SUBPROJECTS),$(eval $(call post-build-template,$(p))))
 .PHONY: post-build
 post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 
+###############################################################################
+### dev
+### Starts services in development mode with
+### `ln -s docker-compose.dev.yml docker-compose.override.yml; docker-compose up -d`
+###############################################################################
+define dev-template
+dev-$(1):
+	@if [ -e "$(1)/docker-compose.dev.yml" ]; then \
+	  echo "Starting $(1) in development mode" \
+	  && cd $(1) \
+		&& rm -rf docker-compose.override.yml \
+		&& ln -s docker-compose.dev.yml docker-compose.override.yml \
+		&& docker-compose up -d; \
+	else \
+	  echo "Starting $(1) from docker image" \
+	  && cd $(1) \
+		&& docker-compose up -d; \
+	fi;
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call dev-template,$(p))))
+
+.PHONY: dev
+dev: $(foreach p,$(SUBPROJECTS),dev-$(p))
 
 ###############################################################################
 ### Start

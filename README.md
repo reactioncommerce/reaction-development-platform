@@ -74,6 +74,8 @@ These are the available `make` commands in the `reaction-platform` root director
 | `make stop-<project-name>`                              | Example: `make stop-example-storefront`. Stops all containers for a single project.                                                             |
 | `make start`                                            | Starts all containers.                                                                                                                          |
 | `make start-<project-name>`                             | Example: `make start-example-storefront`. Starts all containers for a single project.                                                           |
+| `make dev`                                              | Starts `reaction`, `reaction-admin`, `example-storefront` and `reaction-identity` in development mode. |
+| `make dev-<project-name>`                               | Example: `make dev-example-storefront`. Starts all containers for a single project in development mode.
 | `make rm`                                               | Removes all containers. Volumes are not removed.                                                                                                |
 | `make rm-<project-name>`                                | Example: `make rm-example-storefront`. Removes all containers for a single project. Volumes are not removed.                                    |
 | `make checkout-<project-name> <git-tag-or-branch-name>` | Example: `make checkout-example-storefront release-v3.0.0`. Does `git checkout` for a sub-project. See "Running Particular Git Branches" below. |
@@ -104,11 +106,8 @@ To ensure they start quickly, all Reaction projects are configured (in their `do
 # Stop the project
 make stop-<project-name>
 
-# Create a Docker Compose override file for the project
-ln -s ./<project-name>/docker-compose.dev.yml ./<project-name>/docker-compose.override.yml
-
-# Start the project
-make start-<project-name>
+# Start the project in development mode
+make dev-<project-name>
 ```
 
 If you run into trouble with the above steps, `make clean-<project-name>` and then `make init-<project-name>`.
