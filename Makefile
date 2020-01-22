@@ -215,12 +215,12 @@ dev-$(1):
 	@if [ -e "$(1)/docker-compose.dev.yml" ]; then \
 	  echo "Starting $(1) in development mode" \
 	  && cd $(1) \
-		&& rm -rf docker-compose.override.yml \
-		&& ln -s docker-compose.dev.yml docker-compose.override.yml \
+		&& ln -sf docker-compose.dev.yml docker-compose.override.yml \
 		&& docker-compose up -d; \
 	else \
 	  echo "Starting $(1) from docker image" \
 	  && cd $(1) \
+    && docker-compose down \
 		&& docker-compose up -d; \
 	fi;
 endef
