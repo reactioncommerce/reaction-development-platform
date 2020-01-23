@@ -206,23 +206,44 @@ $(foreach p,$(SUBPROJECTS),$(eval $(call post-build-template,$(p))))
 post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 
 ###############################################################################
+### dev-unlink
+### Removes the symlinks for docker-compose development
+###############################################################################
+define dev-unlink-template
+dev-unlink-$(1):
+	@cd $(1) \
+	&& rm -f docker-compose.override.yml \
+	&& echo "Removed docker development symlink for $(1)"
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call dev-unlink-template,$(p))))
+
+.PHONY: dev-unlink
+dev-unlink: $(foreach p,$(SUBPROJECTS),dev-unlink-$(p))
+
+###############################################################################
+### dev-link
+### Overrides default symlinks for `docker-compose` using `docker-compose.dev.yml`
+###############################################################################
+define dev-link-template
+dev-link-$(1):
+	@if [ -e "$(1)/docker-compose.dev.yml" ]; then \
+		cd $(1) \
+		&& ln -sf docker-compose.dev.yml docker-compose.override.yml \
+		&& echo "Created docker development symlink for $(1)"; \
+	fi;
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call dev-link-template,$(p))))
+
+.PHONY: dev-link
+dev-link: $(foreach p,$(SUBPROJECTS),dev-link-$(p))
+
+###############################################################################
 ### dev
 ### Starts services in development mode with
 ### `ln -s docker-compose.dev.yml docker-compose.override.yml; docker-compose up -d`
 ###############################################################################
 define dev-template
-dev-$(1):
-	@if [ -e "$(1)/docker-compose.dev.yml" ]; then \
-	  echo "Starting $(1) in development mode" \
-	  && cd $(1) \
-		&& ln -sf docker-compose.dev.yml docker-compose.override.yml \
-		&& docker-compose up -d; \
-	else \
-	  echo "Starting $(1) from docker image" \
-	  && cd $(1) \
-    && docker-compose down \
-		&& docker-compose up -d; \
-	fi;
+dev-$(1): dev-link-$(1) start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call dev-template,$(p))))
 
