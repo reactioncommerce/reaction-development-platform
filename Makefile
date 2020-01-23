@@ -243,7 +243,7 @@ dev-link: $(foreach p,$(SUBPROJECTS),dev-link-$(p))
 ### `ln -s docker-compose.dev.yml docker-compose.override.yml; docker-compose up -d`
 ###############################################################################
 define dev-template
-dev-$(1): dev-link-$(1) start-$(1)
+dev-$(1): stop-$(1) dev-link-$(1) start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call dev-template,$(p))))
 
@@ -256,7 +256,7 @@ dev: $(foreach p,$(SUBPROJECTS),dev-$(p))
 ###
 ### Pull the specified image tags every time. Tags are constantly being updated
 ### to point to different image IDs, and there is less to debug if we can be
-### reasonably sure that you're always starting the latest image with that tag.
+### reasonably to make sure that you're always starting the latest image with that tag.
 ###
 ### We are purposely running dc up even if dc pull fails. Our Meteor project DC
 ### config uses `image` as a desired image tag for `build` when in dev mode. But
