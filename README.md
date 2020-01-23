@@ -107,14 +107,10 @@ If you're getting unexpected results, `cd` into the sub-project directory and do
 To ensure they start quickly, all Reaction projects are configured (in their `docker-compose.yml` file) to run from the latest published Docker image. This means that if you change code files, you will not see your changes reflected in the running application. To switch over to development mode for a single project:
 
 ```sh
-# Stop the project
-make stop-<project-name>
-
-# Start the project in development mode
 make dev-<project-name>
 ```
 
-If you run into trouble with the above steps, `make clean-<project-name>` and then `make init-<project-name>`.
+If you run into trouble with the above command, run `make clean-<project-name>` and then `make init-<project-name>`.
 
 ## Networked Services
 
