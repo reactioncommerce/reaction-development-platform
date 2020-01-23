@@ -76,6 +76,10 @@ These are the available `make` commands in the `reaction-platform` root director
 | `make start-<project-name>`                             | Example: `make start-example-storefront`. Starts all containers for a single project.                                                           |
 | `make dev`                                              | Starts `reaction`, `reaction-admin`, `example-storefront` and `reaction-identity` in development mode. |
 | `make dev-<project-name>`                               | Example: `make dev-example-storefront`. Starts all containers for a single project in development mode.
+| `make dev-link`                                         | Creates development symlinks for `reaction`, `reaction-admin`, `example-storefront` and `reaction-identity`. |
+| `make dev-link-<project-name>`                          | Example: `make dev-link-example-storefront`. Creates development symlinks for a single project.
+| `make dev-unlink`                                       | Removes development symlinks for `reaction`, `reaction-admin`, `example-storefront` and `reaction-identity`. |
+| `make dev-unlink-<project-name>`                        | Example: `make dev-unlink-example-storefront`. Removes development symlinks for a single project.
 | `make rm`                                               | Removes all containers. Volumes are not removed.                                                                                                |
 | `make rm-<project-name>`                                | Example: `make rm-example-storefront`. Removes all containers for a single project. Volumes are not removed.                                    |
 | `make checkout-<project-name> <git-tag-or-branch-name>` | Example: `make checkout-example-storefront release-v3.0.0`. Does `git checkout` for a sub-project. See "Running Particular Git Branches" below. |
