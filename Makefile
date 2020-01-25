@@ -38,16 +38,28 @@ all: init
 
 ###############################################################################
 ### Init-Project
-### Initializes a project. Does not do common tasks shared between projects.
+### Initializes a project in production mode.
+### Does not do common tasks shared between projects.
 ###############################################################################
 define init-template
-init-$(1): $(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
+init-$(1): $(1) network-create dev-unlink-$(1) prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call init-template,$(p))))
 
 ###############################################################################
-### Init Project with System
-### Init project and run the post-system hook script.
+### Init-Dev-Project
+### Initializes a project in development mode.
+### Does not do common tasks shared between projects.
+###############################################################################
+define init-dev-template
+init-dev-$(1): $(1) network-create dev-link-$(1) prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call init-dev-template,$(p))))
+
+###############################################################################
+### Init-With-System
+### Init project and run the post-system hook script. This is useful for
+### initializing a single project.
 ### Assumes dependencies are already started.
 ###############################################################################
 define init-with-system-template
@@ -55,8 +67,22 @@ init-with-system-$(1): init-$(1) post-system-start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call init-with-system-template,$(p))))
 
+###############################################################################
+### Init-Dev-with-System
+### Init project and run the post-system hook script. This is useful for
+### initializing a single project in development mode.
+### Assumes dependencies are already started.
+###############################################################################
+define init-dev-with-system-template
+init-dev-with-system-$(1): init-dev-$(1) post-system-start-$(1)
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call init-dev-with-system-template,$(p))))
+
 .PHONY: init
 init: $(foreach p,$(SUBPROJECTS),init-$(p)) post-system-start
+
+.PHONY: init-dev
+init-dev: $(foreach p,$(SUBPROJECTS),init-dev-$(p)) post-system-start
 
 ###############################################################################
 ### Targets to verify Github is configured correctly.

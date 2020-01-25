@@ -68,18 +68,19 @@ These are the available `make` commands in the `reaction-platform` root director
 
 | Command                                                 | Description                                                                                                                                     |
 |---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| `make`                                                  | Bootstraps the entire Reaction development environment in Docker.                                                                               |
+| `make`                                                  | Bootstraps the entire Reaction development environment in Docker. Projects will use production Docker images and code.                          |
 | `make init-<project-name>`                              | Example: `make init-example-storefront`. Does clone/setup for a single project.                                                                 |
+| `make init-dev`                                         | Boostraps the entire Reaction development environment in Docker. Projects will use development configuration.                                   |
+| `make init-dev-<project-name>`                          | Example: `make init-dev-example-storefront`. Does clone/setup for a single project and configures it with a development configuration.          |                                                       |
 | `make stop`                                             | Stops all containers.                                                                                                                           |
 | `make stop-<project-name>`                              | Example: `make stop-example-storefront`. Stops all containers for a single project.                                                             |
 | `make start`                                            | Starts all containers.                                                                                                                          |
 | `make start-<project-name>`                             | Example: `make start-example-storefront`. Starts all containers for a single project.                                                           |
-| `make dev`                                              | Starts `reaction`, `reaction-admin`, `example-storefront` and `reaction-identity` in development mode. |
 | `make dev-<project-name>`                               | Example: `make dev-example-storefront`. Starts all containers for a single project in development mode.
-| `make dev-link`                                         | Creates development symlinks for `reaction`, `reaction-admin`, `example-storefront` and `reaction-identity`. |
-| `make dev-link-<project-name>`                          | Example: `make dev-link-example-storefront`. Creates development symlinks for a single project.
-| `make dev-unlink`                                       | Removes development symlinks for `reaction`, `reaction-admin`, `example-storefront` and `reaction-identity`. |
-| `make dev-unlink-<project-name>`                        | Example: `make dev-unlink-example-storefront`. Removes development symlinks for a single project.
+| `make dev-link`                                         | Creates `docker-compose.override.yml` symlinks for development in all projects.                                                                 |
+| `make dev-link-<project-name>`                          | Example: `make dev-link-example-storefront`. Creates development symlinks for a single project.                                                 |
+| `make dev-unlink`                                       | Removes `docker-compose.override.yml` symlinks from all projects.                                                                               |
+| `make dev-unlink-<project-name>`                        | Example: `make dev-unlink-example-storefront`. Removes the `docker-compose.override.yml` symlink for a single project.                          |                     |
 | `make rm`                                               | Removes all containers. Volumes are not removed.                                                                                                |
 | `make rm-<project-name>`                                | Example: `make rm-example-storefront`. Removes all containers for a single project. Volumes are not removed.                                    |
 | `make checkout-<project-name> <git-tag-or-branch-name>` | Example: `make checkout-example-storefront release-v3.0.0`. Does `git checkout` for a sub-project. See "Running Particular Git Branches" below. |
@@ -104,10 +105,30 @@ If you're getting unexpected results, `cd` into the sub-project directory and do
 
 ### Running From Code For Development
 
-To ensure they start quickly, all Reaction projects are configured (in their `docker-compose.yml` file) to run from the latest published Docker image. This means that if you change code files, you will not see your changes reflected in the running application. To switch over to development mode for a single project:
+To ensure they start quickly, all Reaction projects are configured (in their `docker-compose.yml` file) to run from the latest published Docker image. This means that if you change code files, you will not see your changes reflected in the running application. 
+
+##### To install the whole platform in development mode:
+
+Run `make init-dev` (instead of `make`).
+
+Doing this takes time to install and will consume more resources.
+
+##### To switch over to development mode for a single project:
 
 ```sh
-make dev-<project-name>
+make stop-<project-name>
+make dev-link-<project-name>
+make <start-project-name>
+```
+
+If you run into trouble with the above command, run `make clean-<project-name>` and then `make init-dev-<project-name>`.
+
+##### To switch back to development mode for a single project:
+
+```sh
+make stop-<project-name>
+make dev-unlink-<project-name>
+make <start-project-name>
 ```
 
 If you run into trouble with the above command, run `make clean-<project-name>` and then `make init-<project-name>`.
