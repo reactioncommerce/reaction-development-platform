@@ -273,9 +273,6 @@ dev-$(1): stop-$(1) dev-link-$(1) start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call dev-template,$(p))))
 
-.PHONY: dev
-dev: $(foreach p,$(SUBPROJECTS),dev-$(p))
-
 ###############################################################################
 ### Start
 ### Starts services with `docker-compose up -d`
