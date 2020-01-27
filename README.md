@@ -123,7 +123,7 @@ make <start-project-name>
 
 If you run into trouble with the above command, run `make clean-<project-name>` and then `make init-dev-<project-name>`.
 
-##### To switch back to development mode for a single project:
+##### To switch back to production mode for a single project:
 
 ```sh
 make stop-<project-name>
