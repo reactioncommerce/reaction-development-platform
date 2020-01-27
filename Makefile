@@ -38,16 +38,28 @@ all: init
 
 ###############################################################################
 ### Init-Project
-### Initializes a project. Does not do common tasks shared between projects.
+### Initializes a project in production mode.
+### Does not do common tasks shared between projects.
 ###############################################################################
 define init-template
-init-$(1): $(1) network-create prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
+init-$(1): $(1) network-create dev-unlink-$(1) prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call init-template,$(p))))
 
 ###############################################################################
-### Init Project with System
-### Init project and run the post-system hook script.
+### Init-Dev-Project
+### Initializes a project in development mode.
+### Does not do common tasks shared between projects.
+###############################################################################
+define init-dev-template
+init-dev-$(1): $(1) network-create dev-link-$(1) prebuild-$(1) build-$(1) post-build-$(1) start-$(1) post-project-start-$(1)
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call init-dev-template,$(p))))
+
+###############################################################################
+### Init-With-System
+### Init project and run the post-system hook script. This is useful for
+### initializing a single project.
 ### Assumes dependencies are already started.
 ###############################################################################
 define init-with-system-template
@@ -55,8 +67,22 @@ init-with-system-$(1): init-$(1) post-system-start-$(1)
 endef
 $(foreach p,$(SUBPROJECTS),$(eval $(call init-with-system-template,$(p))))
 
+###############################################################################
+### Init-Dev-with-System
+### Init project and run the post-system hook script. This is useful for
+### initializing a single project in development mode.
+### Assumes dependencies are already started.
+###############################################################################
+define init-dev-with-system-template
+init-dev-with-system-$(1): init-dev-$(1) post-system-start-$(1)
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call init-dev-with-system-template,$(p))))
+
 .PHONY: init
 init: $(foreach p,$(SUBPROJECTS),init-$(p)) post-system-start
+
+.PHONY: init-dev
+init-dev: $(foreach p,$(SUBPROJECTS),init-dev-$(p)) post-system-start
 
 ###############################################################################
 ### Targets to verify Github is configured correctly.
@@ -205,6 +231,47 @@ $(foreach p,$(SUBPROJECTS),$(eval $(call post-build-template,$(p))))
 .PHONY: post-build
 post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 
+###############################################################################
+### dev-unlink
+### Removes the symlinks for docker-compose development
+###############################################################################
+define dev-unlink-template
+dev-unlink-$(1):
+	@cd $(1) \
+	&& rm -f docker-compose.override.yml \
+	&& echo "Removed docker development symlink for $(1)"
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call dev-unlink-template,$(p))))
+
+.PHONY: dev-unlink
+dev-unlink: $(foreach p,$(SUBPROJECTS),dev-unlink-$(p))
+
+###############################################################################
+### dev-link
+### Overrides default symlinks for `docker-compose` using `docker-compose.dev.yml`
+###############################################################################
+define dev-link-template
+dev-link-$(1):
+	@if [ -e "$(1)/docker-compose.dev.yml" ]; then \
+		cd $(1) \
+		&& ln -sf docker-compose.dev.yml docker-compose.override.yml \
+		&& echo "Created docker development symlink for $(1)"; \
+	fi;
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call dev-link-template,$(p))))
+
+.PHONY: dev-link
+dev-link: $(foreach p,$(SUBPROJECTS),dev-link-$(p))
+
+###############################################################################
+### dev
+### Starts services in development mode with
+### `ln -s docker-compose.dev.yml docker-compose.override.yml; docker-compose up -d`
+###############################################################################
+define dev-template
+dev-$(1): stop-$(1) dev-link-$(1) start-$(1)
+endef
+$(foreach p,$(SUBPROJECTS),$(eval $(call dev-template,$(p))))
 
 ###############################################################################
 ### Start
@@ -212,7 +279,7 @@ post-build: $(foreach p,$(SUBPROJECTS),post-build-$(p))
 ###
 ### Pull the specified image tags every time. Tags are constantly being updated
 ### to point to different image IDs, and there is less to debug if we can be
-### reasonably sure that you're always starting the latest image with that tag.
+### reasonably to make sure that you're always starting the latest image with that tag.
 ###
 ### We are purposely running dc up even if dc pull fails. Our Meteor project DC
 ### config uses `image` as a desired image tag for `build` when in dev mode. But
