@@ -1,3 +1,9 @@
+# v3.0.0-beta.3
+
+This beta release bumps the following projects to their latest beta releases:
+
+- [reaction-admin](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.2)
+
 # v3.0.0-beta.2
 
 This beta release bumps the following projects to their latest beta releases:
