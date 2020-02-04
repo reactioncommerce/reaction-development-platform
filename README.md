@@ -105,7 +105,7 @@ If you're getting unexpected results, `cd` into the sub-project directory and do
 
 ### Running From Code For Development
 
-To ensure they start quickly, all Reaction projects are configured (in their `docker-compose.yml` file) to run from the latest published Docker image. This means that if you change code files, you will not see your changes reflected in the running application. 
+To ensure they start quickly, all Reaction projects are configured (in their `docker-compose.yml` file) to run from the latest published Docker image. This means that if you change code files, you will not see your changes reflected in the running application.
 
 ##### To install the whole platform in development mode:
 
@@ -147,18 +147,9 @@ running.
 
 ### Network Naming Strategy
 
-Platform networks in the Docker environment should be named as
-`*.reaction.localhost`. The `localhost` TLD is reserved and guaranteed to not
-conflict with a real TLD.
+All projects must list `reaction.localhost` as an external network in their docker-compose configuration. The `make` commands will ensure that this network exists. Choose a unique enough name for your service that you can be reasonably sure it won't conflict with another Reaction service.
 
-### Network List
-
-| Network                    | Description                                                         |
-|----------------------------|---------------------------------------------------------------------|
-| api.reaction.localhost     | GraphQL and API traffic between services                            |
-| auth.reaction.localhost    | Authentication and authorization services                           |
-| streams.reaction.localhost | Streams and databases                                               |
-| reaction.localhost         | General purpose. We are moving toward having only this one network. |
+When you need to communicate with one service from another over the internal Docker network, use `<service-name>.reaction.localhost` as the hostname.
 
 ## Documentation
 

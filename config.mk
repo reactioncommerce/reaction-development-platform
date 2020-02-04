@@ -36,10 +36,7 @@ endef
 
 # List of user defined networks that should be created.
 define DOCKER_NETWORKS
-reaction.localhost \
-auth.reaction.localhost \
-api.reaction.localhost \
-streams.reaction.localhost
+reaction.localhost
 endef
 
 HOOK_DIR=.reaction/project-hooks
