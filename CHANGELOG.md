@@ -1,3 +1,20 @@
+# v3.0.0-beta.4
+
+This beta release bumps the following projects to their latest beta releases:
+
+- [reaction](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.3)
+- [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-beta.2)
+- [reaction-admin](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.3)
+- [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0-beta.2)
+- [reaction-identity](https://github.com/reactioncommerce/reaction-identity/tree/v3.0.0-beta.2)
+
+This release also includes the following PR's:
+
+## Features
+
+- feat: add command to start projects in development mode [#99](https://github.com/reactioncommerce/reaction-development-platform/pull/99)
+- feat: consolidate to one external network [#101](https://github.com/reactioncommerce/reaction-development-platform/pull/101)
+
 # v3.0.0-beta.3
 
 This beta release bumps the following projects to their latest beta releases:
