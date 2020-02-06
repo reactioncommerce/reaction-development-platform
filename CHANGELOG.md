@@ -1,3 +1,20 @@
+# v3.0.0
+
+This is the v3.0.0 release of `reaction-development-platform`. This project is designed to be quickest way to get started with the Reaction API and its supporting services in a local development environment.
+
+*The following Reaction projects are being released one time in coordination as v3.0.0*
+
+- [Reaction API](https://github.com/reactioncommerce/reaction)
+- [Reaction Hydra](https://github.com/reactioncommerce/reaction-hydra)
+- [Reaction Identity](https://github.com/reactioncommerce/reaction-identity)
+- [Reaction Admin (beta)](https://github.com/reactioncommerce/reaction-admin)
+- [Example Storefront](https://github.com/reactioncommerce/example-storefront)
+- [Reaction Development Platform](https://github.com/reactioncommerce/reaction-development-platform)
+
+*After this release, Reaction releases will no longer be coordinated across all projects - we'll release each project independently, as needed. This means version numbers will no longer be in sync. The newest versions of each project will work together.*
+
+*This project, `reaction-development-platform`, will _always_ be updated when any other project is released to keep it in sync with the latest releases from all Reaction projects.*
+
 # v2.9.1
 This is patch version update coordinated with [Reaction](https://github.com/reactioncommerce/reaction), our [Example Storefront](https://github.com/reactioncommerce/example-storefront) and [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra).
 
