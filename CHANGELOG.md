@@ -1,63 +1,22 @@
-# v3.0.0-beta.4
+# v3.0.0
 
-This beta release bumps the following projects to their latest beta releases:
+This is the v3.0.0 release of `reaction-development-platform`. This project is designed to be quickest way to get started with the Reaction API and its supporting services in a local development environment.
 
-- [reaction](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.3)
-- [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-beta.2)
-- [reaction-admin](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.3)
-- [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0-beta.2)
-- [reaction-identity](https://github.com/reactioncommerce/reaction-identity/tree/v3.0.0-beta.2)
+*The following Reaction projects are being released one time in coordination as v3.0.0*
 
-This release also includes the following PR's:
+- [Reaction API](https://github.com/reactioncommerce/reaction)
+- [Reaction Hydra](https://github.com/reactioncommerce/reaction-hydra)
+- [Reaction Identity](https://github.com/reactioncommerce/reaction-identity)
+- [Reaction Admin (beta)](https://github.com/reactioncommerce/reaction-admin)
+- [Example Storefront](https://github.com/reactioncommerce/example-storefront)
+- [Reaction Development Platform](https://github.com/reactioncommerce/reaction-development-platform)
 
-## Features
+*After this release, Reaction releases will no longer be coordinated across all projects - we'll release each project independently, as needed. This means version numbers will no longer be in sync. The newest versions of each project will work together.*
 
-- feat: add command to start projects in development mode [#99](https://github.com/reactioncommerce/reaction-development-platform/pull/99)
-- feat: consolidate to one external network [#101](https://github.com/reactioncommerce/reaction-development-platform/pull/101)
+*This project, `reaction-development-platform`, will _always_ be updated when any other project is released to keep it in sync with the latest releases from all Reaction projects.*
 
-# v3.0.0-beta.3
-
-This beta release bumps the following projects to their latest beta releases:
-
-- [reaction-admin](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.2)
-
-# v3.0.0-beta.2
-
-This beta release bumps the following projects to their latest beta releases:
-
-- [reaction](https://github.com/reactioncommerce/reaction/tree/v3.0.0-beta.2)
-
-# v3.0.0-beta
-
-This beta release bumps the following projects to their beta releases:
-
-- [reaction](https://github.com/reactioncommerce/reaction/tree/v3.0.0-beta)
-- [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-beta)
-- [reaction-admin](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta)
-- [reaction-identity](https://github.com/reactioncommerce/reaction-identity/tree/v3.0.0-beta)
-- [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0-beta)
-
-# v3.0.0-alpha.3
-
-This alpha release bumps the following projects to their latest alpha releases:
-
-- [reaction](https://github.com/reactioncommerce/reaction/tree/v3.0.0-alpha.3)
-- [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-alpha.3)
-- [reaction-identity](https://github.com/reactioncommerce/reaction-identity/tree/v3.0.0-alpha.2)
-- [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0-alpha.2)
-
-# v3.0.0-alpha.2
-
-This alpha release bumps the versions of
-[reaction](https://github.com/reactioncommerce/reaction/tree/v3.0.0-alpha.2)
-and [example-storefront](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-alpha.2)
-to their latest alpha releases.
-
-# v3.0.0-alpha
-
-This is a major update to keep this project in sync with
-[reaction v3.0.0-alpha](https://github.com/reactioncommerce/reaction/tree/v3.0.0-alpha)
-and [example-storefront v3.0.0-alpha](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0-alpha).
+# v2.9.1
+This is patch version update coordinated with [Reaction](https://github.com/reactioncommerce/reaction), our [Example Storefront](https://github.com/reactioncommerce/example-storefront) and [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra).
 
 # v2.9.0
 This is minor version update coordinated with [Reaction](https://github.com/reactioncommerce/reaction), our [Example Storefront](https://github.com/reactioncommerce/example-storefront) and [reaction-hydra](https://github.com/reactioncommerce/reaction-hydra).
