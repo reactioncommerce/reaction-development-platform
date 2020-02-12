@@ -173,7 +173,7 @@ The following table provides the most current version of each project used by th
 | [reaction-identity][17]             	| 3.0.0           	|
 | [example-storefront][13]            	| 3.0.0           	|
 | [reaction-admin (beta)][19]         	| 3.0.0-beta.5    	|
-| [api-migrations][10]                	| 3.0.0           	|
+| [api-migrations][20]                	| 3.0.0           	|
 
 ### Developer Certificate of Origin
 We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing-off all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:
