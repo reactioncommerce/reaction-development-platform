@@ -18,10 +18,8 @@ supporting services in a local development environment.
 * Bourne Shell and POSIX tools (sh, grep, sed, awk, etc)
   * MacOS and Linux users will have a suitable version bundled with the OS
 * [Git][5]
-* [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
-* [Node.js][3]
-* [Yarn][4]
 * A [GitHub][6] account with a [configured SSH key][7]
+* [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
 
 ## Getting started
 
@@ -186,8 +184,6 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [0]: https://www.docker.com/get-docker "Docker"
 [1]: https://www.docker.com/docker-mac "Docker for Mac"
 [2]: https://www.docker.com/docker-windows "Docker for Windows"
-[3]: https://nodejs.org "NodeJS"
-[4]: https://yarnpkg.com/en/docs/install "Yarn"
 [5]: https://git-scm.com/ "Git"
 [6]: https://github.com/ "GitHub"
 [7]: https://github.com/settings/keys "GitHub SSH Keys"
