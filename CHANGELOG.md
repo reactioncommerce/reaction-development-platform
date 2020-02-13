@@ -1,6 +1,10 @@
+# v3.0.2
+
+This update is coordinated with the release of [Reaction v3.1.0](https://github.com/reactioncommerce/reaction/releases/tag/v3.1.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
+
 # v3.0.1
 
-This update is coordinated with the release of [reaction-admin 3.0.0-beta.5](https://github.com/reactioncommerce/reaction-admin) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
+This update is coordinated with the release of [Reaction Admin v3.0.0-beta.5](https://github.com/reactioncommerce/reaction-admin/releases/tag/v3.0.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
 
 # v3.0.0
 
