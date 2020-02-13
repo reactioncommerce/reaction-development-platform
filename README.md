@@ -1,8 +1,6 @@
 ## Overview
 
-Reaction Platform is a customizable, real-time, reactive commerce solution.
-This repository is the quickest way to get started with [Reaction][10] and its
-supporting services in a local development environment.
+Reaction Platform is a customizable, real-time, reactive commerce solution. This repository is the quickest way to get started with the [Reaction API][10] and its supporting services in a local development environment.
 
 ## Features
 
@@ -23,11 +21,11 @@ supporting services in a local development environment.
 
 ## Getting started
 
-Clone this repository, and then run `make` in the `reaction-platform` directory. If all goes well, it will take some time to download and start all of the components, but when it's done you'll have the entire Reaction application running on your computer through Docker. Individual services are cloned as child directories within this project.
+Clone this repository, and then run `make` in the `reaction-development-platform` directory. If all goes well, it will take some time to download and start all of the components, but when it's done you'll have the entire Reaction application running on your computer through Docker. Individual services are cloned as child directories within this project.
 
 ```sh
-git clone git@github.com:reactioncommerce/reaction-platform.git
-cd reaction-platform
+git clone git@github.com:reactioncommerce/reaction-development-platform.git
+cd reaction-development-platform
 make
 ```
 
@@ -163,6 +161,20 @@ You may refer to each sub-project's README for additional operation details.
 
 For tips on developing with Docker, read our [Docker docs](https://docs.reactioncommerce.com/docs/installation-docker-development).
 
+## Latest Releases
+
+The following table provides the most current version of each project used by this platform:
+
+| Project                             	| Latest release  	|
+|-------------------------------------	|-----------------	|
+| [reaction-development-platform][10] 	| 3.0.1           	|
+| [reaction][10]                      	| 3.0.0           	|
+| [reaction-hydra][12]                	| 3.0.0           	|
+| [reaction-identity][17]             	| 3.0.0           	|
+| [example-storefront][13]            	| 3.0.0           	|
+| [reaction-admin (beta)][19]         	| 3.0.0-beta.5    	|
+| [api-migrations][20]                	| 3.0.0           	|
+
 ### Developer Certificate of Origin
 We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing-off all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:
 ```
@@ -200,3 +212,4 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [18]: https://github.com/reactioncommerce/reaction-identity/blob/trunk/README.md "Reaction Identity Readme"
 [19]: https://github.com/reactioncommerce/reaction-admin "Reaction Admin"
 [20]: https://github.com/reactioncommerce/reaction-admin/blob/trunk/README.md "Reaction Admin Readme"
+[20]: https://github.com/reactioncommerce/api-migrations "API Migrations"

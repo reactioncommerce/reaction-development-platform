@@ -1,3 +1,7 @@
+# v3.0.1
+
+This update is coordinated with the release of [reaction-admin 3.0.0-beta.5](https://github.com/reactioncommerce/reaction-admin) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
+
 # v3.0.0
 
 This is the v3.0.0 release of `reaction-development-platform`. This project is designed to be quickest way to get started with the Reaction API and its supporting services in a local development environment.
