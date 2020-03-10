@@ -82,6 +82,8 @@ These are the available `make` commands in the `reaction-platform` root director
 | `make checkout-<project-name> <git-tag-or-branch-name>` | Example: `make checkout-example-storefront release-v3.0.0`. Does `git checkout` for a sub-project. See "Running Particular Git Branches" below. |
 | `make clean`                                            | Removes all containers, networks, and volumes. Any volume data will be lost.                                                                    |
 | `make clean-<project-name>`                             | Example: `make clean-example-storefront`. Removes all containers, networks, and volumes for a single project. Any volume data will be lost.     |
+| `make update-checkouts`                                 | Example: `make update-checkouts`. Update git checkouts on all projects. Useful for syncing dev env to config file. Safe, fails on uncommitted changes.
+| `make update-checkout-<project-name>`                   | Example: `make update-checkout-example-storefront`. Checks out branch in config file and pulls. Useful for syncing dev env to config file. Safe, fails on uncommitted changes.
 
 ## Running Particular Git Branches
 
