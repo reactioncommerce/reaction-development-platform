@@ -20,7 +20,12 @@
 #
 
 ###############################################################################
-### Configuration
+### Common Configuration
+###############################################################################
+HOOK_DIR=.reaction/project-hooks
+
+###############################################################################
+### Loaded Configuration
 ### Load configuration from external files. Configuration variables defined in
 ### later files have precedent and will overwrite those defined in previous
 ### files. The -include directive ensures that no error is thrown if a file is

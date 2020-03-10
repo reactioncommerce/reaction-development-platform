@@ -38,5 +38,3 @@ endef
 define DOCKER_NETWORKS
 reaction.localhost
 endef
-
-HOOK_DIR=.reaction/project-hooks
