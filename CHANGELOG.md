@@ -2,7 +2,7 @@
 
 This release is coordinated with the release of [Reaction v3.4.0](https://github.com/reactioncommerce/reaction/releases/tag/v3.4.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
 
-This release bumps the version number differently than previous releases to get `reaction-development-platform` on a `semantic-release` versioning style.
+This release bumps the version number differently than previous releases to make `reaction-development-platform` compatible with the `semantic-release` versioning style.
 
 # v3.0.4
 
