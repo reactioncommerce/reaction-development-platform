@@ -82,6 +82,92 @@ These are the available `make` commands in the `reaction-platform` root director
 | `make checkout-<project-name> <git-tag-or-branch-name>` | Example: `make checkout-example-storefront release-v3.0.0`. Does `git checkout` for a sub-project. See "Running Particular Git Branches" below. |
 | `make clean`                                            | Removes all containers, networks, and volumes. Any volume data will be lost.                                                                    |
 | `make clean-<project-name>`                             | Example: `make clean-example-storefront`. Removes all containers, networks, and volumes for a single project. Any volume data will be lost.     |
+| `make update-checkouts`                                 | Example: `make update-checkouts`. Update git checkouts on all projects. Useful for syncing dev env to config file. Safe, fails on uncommitted changes.
+| `make update-checkout-<project-name>`                   | Example: `make update-checkout-example-storefront`. Checks out branch in config file and pulls. Useful for syncing dev env to config file. Safe, fails on uncommitted changes.
+
+
+## Customizing Configuration
+
+The development platform runs the latest version of Reaction by default, but
+it's possible to select a specific version, or to customize an existing release
+version.
+
+### How Configuration Works
+
+The Reaction development platform uses `make` to run tasks. `make` is aware of
+the task dependency tree and ensures that all required dependencies are met
+when running a task.  The main tasks and functionality for `make` are
+configured in `Makefile`.
+
+Configurations that may change are extracted into `config.mk`. This file is
+checked in to source control and should not be modified. It is always configured
+for the latest Reaction release.
+
+If a file named `config.local.mk` exists then it will be loaded after
+`config.mk`. Settings in `config.local.mk` will override those set in
+`config.mk`. It is ignored by source control.
+
+
+### Running a Specific Reaction Release Version
+
+Configurations for specific Reaction releases (since v3.0.0) are located in
+`config/reaction-oss`. You may symlink or copy any release configuration to
+`config.local.mk`.
+
+For example, this command will configure the platform to run `v3.0.4`:
+
+```sh
+ln -s config/reaction-oss/reaction-v3.0.4.mk config.local.mk
+make
+```
+
+### Running A Customized Installation
+
+You may customize your Reaction installation by modifying `config.local.mk`.
+It's easiest to start with an existing release configuration file and modify it
+as needed. In this way you can:
+
+* Add new sub-projects
+* Remove sub-projects
+* Update the git origin for a sub-project
+* Change the default branch for a sub-project
+* Customize the lifecycle hooks directory to run custom scripts for automation
+
+Configuration files store in `config/local` are ignored by git. It's a
+convenient place to store local files for quick development. If you are sharing
+files with a team then you may want to keep your configuration files in a
+separate git repository or in shared network storage.
+
+The only requirement to override configuration is that you need to put a file
+into place at `config.local.mk`, so it is possible to copy or symlink a file
+from anywhere in your system.
+
+Examples:
+
+```sh
+# Use a file in the config/local directory
+ln -s config/local/my-custom-config.mk config.local.mk
+make
+```
+
+```sh
+# Use a file in the config/local directory
+ln -s /path/on/my/system/reactionconfig.mk config.local.mk
+make
+```
+
+### Updating Local Branches to Match Config
+
+If you are using the Reaction development platform for development, then you
+will need to update your local branch to get the latest at some point. The
+`update-checkouts` command will perform this operation.
+
+```
+make update-checkouts
+```
+
+The command is safe. It will halt if there are uncommitted changes in
+git before doing anything. You may commit, stash or drop those changes.
 
 ## Running Particular Git Branches
 
