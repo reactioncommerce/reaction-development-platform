@@ -20,7 +20,12 @@
 #
 
 ###############################################################################
-### Configuration
+### Common Configuration
+###############################################################################
+HOOK_DIR=.reaction/project-hooks
+
+###############################################################################
+### Loaded Configuration
 ### Load configuration from external files. Configuration variables defined in
 ### later files have precedent and will overwrite those defined in previous
 ### files. The -include directive ensures that no error is thrown if a file is
@@ -162,6 +167,21 @@ $(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-clone-template,$(shell echo $
 clone: github-configured $(foreach p,$(SUBPROJECTS),$(p))
 
 ###############################################################################
+### Git Verify Clean
+### Checks that the project has a clean workspace and changes won't be lost.
+###############################################################################
+define git-ensure-clean-diff-template
+git-ensure-clean-diff-$(2): $(2)
+	@cd "$(2)" \
+	  && git diff --stat --quiet \
+	  || (echo "There are uncommitted changes in './$(2)'. Commit or discard changes before performing this operation."; exit 1)
+endef
+$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-ensure-clean-diff-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
+
+.PHONY: git-ensure-clean-diff
+git-ensure-clean-diff: $(foreach p,$(SUBPROJECTS),git-ensure-clean-diff-$(p))
+
+###############################################################################
 ### Git checkout
 ### Checkout the branch configured in the platform settings.
 ### Does not gracefully deal with conflicts or other problems.
@@ -174,6 +194,28 @@ $(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-checkout-template,$(shell ech
 
 .PHONY: checkout
 checkout: clone $(foreach p,$(SUBPROJECTS),checkout-$(p))
+
+
+###############################################################################
+### Git Update Checkouts
+### Will check out the configured branch for all projects. This can be used to
+### get an installation in sync with the configuration file.
+### Fails on conflicts so the developer can properly commit or discard work.
+###
+### It is important to keep the `git-ensure-clean-diff` dependency, else
+### WORK WILL BE LOST!!
+###############################################################################
+define git-update-checkout-template
+update-checkout-$(2): git-ensure-clean-diff-$(2)
+	cd $(2) \
+	  && git fetch --tags \
+	  && git checkout $(3) \
+	  && git pull origin $(3) --ff-only
+endef
+$(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-update-checkout-template,$(shell echo $(rr) | cut -d , -f 1),$(shell echo $(rr) | cut -d , -f 2),$(shell echo $(rr) | cut -d , -f 3))))
+
+.PHONY: update-checkouts
+update-checkouts: $(foreach p,$(SUBPROJECTS),update-checkout-$(p))
 
 ###############################################################################
 ### Pre Build Hook
