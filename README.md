@@ -16,8 +16,9 @@ Reaction Platform is a customizable, real-time, reactive commerce solution. This
 * Bourne Shell and POSIX tools (sh, grep, sed, awk, etc)
   * MacOS and Linux users will have a suitable version bundled with the OS
 * [Git][5]
-* A [GitHub][6] account with a [configured SSH key][7]
 * [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
+* A [GitHub][6] account with a [configured SSH key][7] is not required by
+  default, but necessary when using custom, private Github repositories.
 
 ## Getting started
 
