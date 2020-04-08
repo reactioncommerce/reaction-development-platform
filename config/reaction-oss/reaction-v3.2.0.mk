@@ -1,14 +1,8 @@
 ###############################################################################
-### Reaction Platform Configuration
+### Reaction OSS v3.2.0
 ###
-### This file defines configuration used in the Makefile.
-### You may add and/or override these values with your own custom configuration
-### in `config.local.mk`.
-###
-### Please see GNU Makes multi-line variable documentation for more info.
-### https://www.gnu.org/software/make/manual/html_node/Multi_002dLine.html
+### See: `/config.mk` for documentation.
 ###############################################################################
-
 
 # List of tools that must be installed.
 # A simple check to determine the tool is available. No version check, etc.
