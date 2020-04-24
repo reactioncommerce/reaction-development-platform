@@ -59,6 +59,10 @@ Example:
 make init-example-storefront
 ```
 
+## Logging in
+
+The first user created in Reaction will get admin permissions. To create it, go to the example storefront at http://localhost:4000 and use the menu.
+
 ## Project Commands
 
 These are the available `make` commands in the `reaction-platform` root directory.
