@@ -167,6 +167,19 @@ $(foreach rr,$(SUBPROJECT_REPOS),$(eval $(call git-clone-template,$(shell echo $
 clone: github-configured $(foreach p,$(SUBPROJECTS),$(p))
 
 ###############################################################################
+### Git clone all API plugins
+###############################################################################
+.PHONY: clone-api-plugins
+clone-api-plugins:
+	if [ ! -d api-plugins ] ; then \
+	  mkdir api-plugins; \
+	fi; \
+	cd api-plugins; \
+	for repo in $(API_PLUGIN_REPOS); do \
+		git clone $$repo || true; \
+	done;
+
+###############################################################################
 ### Git Verify Clean
 ### Checks that the project has a clean workspace and changes won't be lost.
 ###############################################################################
