@@ -1,3 +1,7 @@
+# v3.4.0
+
+This release is coordinated with the release of [Reaction v3.7.0](https://github.com/reactioncommerce/reaction/releases/tag/v3.7.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
+
 # v3.3.0
 
 This release is coordinated with the release of [Reaction v3.6.0](https://github.com/reactioncommerce/reaction/releases/tag/v3.6.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
