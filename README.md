@@ -258,7 +258,7 @@ The following table provides the most current version of each project used by th
 | [reaction-hydra][12]                | [`3.0.0`](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0)                           |
 | [reaction-identity][17]             | [`3.0.0`](https://github.com/reactioncommerce/reaction-identity/tree/v3.0.0)                        |
 | [example-storefront][13]            | [`3.0.0`](https://github.com/reactioncommerce/example-storefront/tree/v3.0.0)                       |
-| [reaction-admin (beta)][19]         | [`3.0.0-beta.6`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.6)             |
+| [reaction-admin (beta)][19]         | [`3.0.0-beta.7`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.7)             |
 | [api-migrations][20]                | [`3.7.1`](https://github.com/reactioncommerce/api-migrations/tree/v3.7.1)                           |
 
 ### Developer Certificate of Origin
