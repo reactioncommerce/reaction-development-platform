@@ -29,7 +29,7 @@ endef
 define SUBPROJECT_REPOS
 https://github.com/reactioncommerce/reaction-hydra.git,reaction-hydra,v3.0.0 \
 https://github.com/reactioncommerce/reaction.git,reaction,v3.8.0 \
-https://github.com/reactioncommerce/reaction-identity.git,reaction-identity,v3.0.0 \
+https://github.com/reactioncommerce/reaction-identity.git,reaction-identity,v3.1.0 \
 https://github.com/reactioncommerce/reaction-admin.git,reaction-admin,v3.0.0-beta.7 \
 https://github.com/reactioncommerce/example-storefront.git,example-storefront,v3.1.0
 endef
