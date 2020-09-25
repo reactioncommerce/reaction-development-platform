@@ -1,6 +1,6 @@
 # v3.9.0
 
-This release is coordinated with the release of [Reaction v3.9.0](https://github.com/reactioncommerce/reaction/releases/tag/v3.9.0), [Reaction Admin v3.0.0-beta.9](https://github.com/reactioncommerce/reaction-admin/releases/tag/v3.0.0-beta.9) and [Reaction Identity v3.1.0](https://github.com/reactioncommerce/reaction-identity/releases/tag/v3.2.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
+This release is coordinated with the release of [Reaction v3.9.0](https://github.com/reactioncommerce/reaction/releases/tag/v3.9.0), [Reaction Admin v3.0.0-beta.9](https://github.com/reactioncommerce/reaction-admin/releases/tag/v3.0.0-beta.9) and [Reaction Identity v3.2.0](https://github.com/reactioncommerce/reaction-identity/releases/tag/v3.2.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
 
 # v3.8.0
 
