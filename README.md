@@ -43,7 +43,7 @@ These services will be running when the initial `make` command is complete:
 |-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [OAuth2 Server (Hydra)][12] (http://localhost:4444) | [ORY Hydra][11] OAuth2 token server.                                                                                                                                                                |
 | [Reaction Identity][17] (http://localhost:4100)     | The OAuth2-compatible user interface for Reaction Identity, such as login and registration.                                                                                                         |
-| [Reaction API][10] (http://localhost:3000)          | The Reaction API, which includes [a GraphQL endpoint](http://localhost:3000/graphql-beta). See [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground/). |
+| [Reaction API][10] (http://localhost:3000)          | The Reaction API, which includes [a GraphQL endpoint](http://localhost:3000/graphql). See [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground/). |
 | [Reaction Admin][19] (http://localhost:4080)        | A user interface for administrators and shop managers to configure shops, manage products, and process orders.                                                                                      |
 | [Example Storefront][13] (http://localhost:4000)    | An example Reaction storefront UI built with [Next.JS](https://github.com/zeit/next.js/).                                                                                                           |
 
@@ -253,12 +253,12 @@ The following table provides the most current version of each project used by th
 
 | Project                             | Latest release / tag                                                                                |
 |-------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [reaction-development-platform][10] | [`3.3.0`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.3.0)            |
+| [reaction-development-platform][10] | [`3.8.0`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.8.0)            |
 | [reaction][10]                      | [`3.8.0`](https://github.com/reactioncommerce/reaction/tree/v3.8.0)                                 |
 | [reaction-hydra][12]                | [`3.0.0`](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0)                           |
 | [reaction-identity][17]             | [`3.1.0`](https://github.com/reactioncommerce/reaction-identity/tree/v3.1.0)                        |
 | [example-storefront][13]            | [`3.1.0`](https://github.com/reactioncommerce/example-storefront/tree/v3.1.0)                       |
-| [reaction-admin (beta)][19]         | [`3.0.0-beta.7`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.7)             |
+| [reaction-admin (beta)][19]         | [`3.0.0-beta.8`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.8)             |
 | [api-migrations][20]                | [`3.8.0`](https://github.com/reactioncommerce/api-migrations/tree/v3.8.0)                           |
 
 ### Developer Certificate of Origin
