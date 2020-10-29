@@ -22,9 +22,9 @@ endef
 # Projects will be started in this order
 define SUBPROJECT_REPOS
 https://github.com/reactioncommerce/reaction-hydra.git,reaction-hydra,v3.0.0 \
-https://github.com/reactioncommerce/reaction.git,reaction,v3.10.0 \
-https://github.com/reactioncommerce/reaction-identity.git,reaction-identity,v3.3.0 \
-https://github.com/reactioncommerce/reaction-admin.git,reaction-admin,v3.0.0-beta.10 \
+https://github.com/Project-Noa-Inc/reaction.git,v3.10.0 \
+https://github.com/Project-Noa-Inc/reaction-identity.git,reaction-identity,v3.3.0 \
+https://github.com/Project-Noa-Inc/reaction-admin.git,v3.0.0-beta.10 \
 https://github.com/reactioncommerce/example-storefront.git,example-storefront,v4.0.0
 endef
 
