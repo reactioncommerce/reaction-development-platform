@@ -11,20 +11,25 @@ import time
 from shutil import copyfile
 import sys
 import requests
+from github import Github
 
-CORE_MEMBERS = ['akarshitwal@gmail.com', 'jessica.wolvington@gmail.com']
+CORE_MEMBERS = ['akarshitwal@gmail.com', 'jessica.wolvington@gmail.com', 'support@github.com']
 QA = 'manueldelreal'
+
 repos = [
     'reaction-admin',
     'reaction', 
     'example-storefront', 
     'reaction-identity'
-    ]
+]
+
 dockerRepoDict = {
     'reaction-admin': 'admin',
     'reaction': 'reaction',
     'reaction-identity': 'identity',
+    'example-storefront': 'example-storefront',
 }
+
 repoVersions = {}
 # list of commits across all repos
 allCommits = []
@@ -49,9 +54,9 @@ def line_prepender(filename, line):
 
 def getBump(commits):
     for author, commit, pullNumber in commits:
-        if commit[0].lower().startswith('feat'):
-            return 'major'
-    return 'minor'
+        if commit.lower().startswith('feat'):
+            return 'minor'
+    return 'patch'
 
 def getVersion(prevVersion, commits):
     if prevVersion.prerelease:
@@ -71,7 +76,7 @@ def generateChangelog(commits, version, bump, prevVersion, repo):
         'Fixes': 0,
         'Refactors': 0,
         'Tests': 0,
-        'Chore: 0'
+        'Chore': 0,
         'Docs': 0,
         'Style': 0,
         'Performance': 0,
@@ -87,21 +92,26 @@ def generateChangelog(commits, version, bump, prevVersion, repo):
         'chore': 'Chore',
     }
     changelogDict = defaultdict(str)
-    contributors = []
+    contributors = set([])
     for author, commit, pullNumber in commits:
-        key = ''
-        if not author.email.lower().endswith('@mailchimp.com') and author.email.lower() not in CORE_MEMBERS:
-            contributors.append(author.name)
-        key = commit[0].split(':')[0].lower()
-        changelogDict[key] += '\n'.join(map(lambda c: ' - ' + c.strip('\n') + f' ([{pullNumber}](https://github.com/reactioncommerce/{repo}/pull/{pullNumber}))', commit))
+        authorEmail = author.email.lower()
+        if not (authorEmail.endswith('@mailchimp.com') or authorEmail in CORE_MEMBERS or 'dependabot' in authorEmail):
+            contributors.add(author.name)
+        key = commit.split(':')[0].lower()
+        if '(' in key:
+            # if the key has a scope
+            key = key.split('(')[0]
+        if key not in categoriesDict.keys():
+            # anything that is not in above is a fix
+            key = 'fix'
+        changelogDict[key] += '\n - ' + commit.split('\n')[0] + f' ([#{pullNumber}](https://github.com/reactioncommerce/{repo}/pull/{pullNumber}))'
 
-    # print(changelogDict.items())
-    changelogDoc = sorted(map(lambda item: (categoriesOrder[categoriesDict[item[0]]], f'\n\n## {categoriesDict[item[0]]}\n\n{item[1]}'), changelogDict.items()))
+    changelogDoc = sorted(map(lambda item: (categoriesOrder[categoriesDict[item[0]]], f'\n\n## {categoriesDict[item[0]]}\n{item[1]}'), changelogDict.items()))
     changelogDoc = ''.join([v for k, v in changelogDoc])
     if contributors:
         changelogDoc += f'\n\n## Contributors\n\n Special thanks to {", ".join(contributors)} for contributing to the release!'
 
-    return f'# v{version}\n\nReaction v{version} adds {bump} features or bug fixes and contains no breaking changes since v{str(prevVersion)}.{changelogDoc}\n\n'
+    return f'# v{version}\n\n{repo} v{version} adds {bump} features or bug fixes and contains no breaking changes since v{str(prevVersion)}.{changelogDoc}\n\n'
 
 def getPrevVersion():
     # Get latest relase tag name
@@ -117,7 +127,7 @@ def getPrevVersion():
         print("Error getting tag")
     return prevVersion      
 
-def prepareTrunk():
+def prepareTrunk(branch='trunk'):
     #  Stashing the changes
     print("## Stashing the changes")
     process = subprocess.Popen('git stash',
@@ -128,8 +138,8 @@ def prepareTrunk():
     print(stderr)
 
     # Change branch to trunk
-    print("## Running git checkout trunk")
-    process = subprocess.Popen(['git', 'checkout', 'trunk'],
+    print(f"## Running git checkout {branch}")
+    process = subprocess.Popen(['git', 'checkout', branch],
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
@@ -138,7 +148,7 @@ def prepareTrunk():
     
     # Pull the latest changes
     print("## Running git pull")
-    process = subprocess.Popen(['git', 'pull'],
+    process = subprocess.Popen(['git', 'pull', 'origin'],
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
@@ -150,15 +160,16 @@ def restoreTrunk():
     print("## Un-stashing the changes")
     process = subprocess.Popen('git stash apply',
                         stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE)
+                        stderr=subprocess.PIPE, shell=True)
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
 
-def createPR(version, files, changelogDoc, reviewer='reactioncommerce/oc'):
+def createPR(repo, version, files, changelogDoc, reviewer='reactioncommerce/oc', branch='trunk'):
     # npm i
-    print("## Running npm install")
-    process = subprocess.Popen('npm install',
+    manager = 'yarn' if repo == 'example-storefront' else 'npm'
+    print(f"## Running {manager} install")
+    process = subprocess.Popen(f'{manager} install',
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE, shell=True)
     stdout, stderr = process.communicate()
@@ -173,6 +184,8 @@ def createPR(version, files, changelogDoc, reviewer='reactioncommerce/oc'):
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
+    if 'fatal' in str(stderr):
+        exit()
 
     # staging files
     print("## Staging files")
@@ -182,17 +195,20 @@ def createPR(version, files, changelogDoc, reviewer='reactioncommerce/oc'):
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
+    if 'fatal' in str(stderr):
+        exit()
 
     # commiting files
     print("## Comitting files")
-    process = subprocess.Popen(f'git commit -m "Release v{version}" --signoff',
+    process = subprocess.Popen(f'git commit -m "ci: v{version}" --signoff',
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE, shell=True)
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
+    
 
-        # pushing the branch to github
+    # pushing the branch to github
     print("## Pushing the branch to github")
     process = subprocess.Popen(f'git push origin HEAD',
                         stdout=subprocess.PIPE, 
@@ -200,44 +216,54 @@ def createPR(version, files, changelogDoc, reviewer='reactioncommerce/oc'):
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
-    print(f'gh pr create --title "Release v{version}" --base trunk --body {changelogDoc} --reviewer {reviewer}')
+    print(f'gh pr create --title "Release v{version}" --base {branch} --body {changelogDoc} --reviewer {reviewer}')
         # Making PR on github
     print("## Making PR on github")
-    process = subprocess.Popen(f'gh pr create --title "Release v{version}" --base trunk --body "{changelogDoc}"  --reviewer {reviewer}',
+    process = subprocess.Popen(f'gh pr create --title "Release v{version}" --base {branch} --body "{changelogDoc}"  --reviewer {reviewer}',
+                        stdout=subprocess.PIPE, 
+                        stderr=subprocess.PIPE, shell=True)
+    stdout, stderr = process.communicate()
+    print(stdout)
+    print(stderr)
+    return str(stdout).strip('\n')
+
+def getCommits(repo, prevVersion):
+    gitRepo = Repo()
+    user = Github(os.environ['GITHUB_TOKEN_RELEASE'])
+    repo = user.get_repo(f'reactioncommerce/{repo}')
+    bareCommits = list(gitRepo.iter_commits(f'HEAD...v{prevVersion}'))
+    commits = []
+    for index, c in enumerate(bareCommits):
+        commit = repo.get_commit(sha=str(c))
+        commitPulls = commit.get_pulls()
+        pullNumber = 0
+        for pull in commitPulls:
+            pullNumber = pull.number
+        if not pullNumber:
+            continue
+        message = '\n'.join(filter(lambda msg: 'Signed-off-by:' not in msg, c.message.strip('\n').strip('\t').split('\n')))
+        if message.startswith("Merge "):
+            # these are generate when PRs are merged.
+            pass
+        else:
+            commits.append((c.author, message, pullNumber))
+    return commits
+
+def createRelease(version, changelogDoc):
+    print("## Creating release on github")
+    process = subprocess.Popen(f'gh release create v{version} -d -t v{version} -n "{changelogDoc}"',
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE, shell=True)
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
 
-
-def getCommits(gitRepo, prevVersion):
-    bareCommits = list(gitRepo.iter_commits(f'HEAD...v{prevVersion}'))
-    commits = []
-    messages = []
-    currAuthor = ''
-    pullNumber = ''
-    for index, c in enumerate(bareCommits):
-        # XXX: Strip new lines not working
-        message = '\n'.join(filter(lambda msg: 'Signed-off-by:' not in msg, c.message.strip('\n').strip('\t').split('\n')))
-        if message.startswith("Merge pull request"):
-            if messages:
-                commits.append((currAuthor, messages, pullNumber))
-                messages = []
-            pullNumber = message.split(' ')[3]
-        else:
-            messages.append(message)
-        currAuthor = c.author
-    if messages:
-        commits.append((currAuthor, messages, pullNumber))
-    return commits
-
-def createRelease(version, changelogDoc):
-    print("## Creating release on github")
-    process = subprocess.Popen(f'gh release create v{version} -n {changelogDoc} -d -t v{version}',
+def approvePR():
+    print("## Approving PR")
+    process = subprocess.Popen(f'gh pr review --approve',
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = process.communicate()
+    stdout, stderr = process.communicate()        
     print(stdout)
     print(stderr)
 
@@ -248,11 +274,13 @@ def waitForChecks():
                             stdout=subprocess.PIPE, 
                             stderr=subprocess.PIPE, shell=True)
         stdout, stderr = process.communicate()
-        if 'passing' in stdout:
+        print(stdout, stderr)
+        if 'passing' in str(stdout):
             return True
-        elif 'failed' in stdout:
+        elif 'failed' in str(stdout):
             print("The PR failed the build")
             return False
+        print("Ask the reviewer to approve the PR")
         time.sleep(5)
         
     print(stdout)
@@ -260,7 +288,7 @@ def waitForChecks():
     
 def mergePR(URL):
     print("## Merging PR on github")
-    process = subprocess.Popen(f'gh pr merge {URL} -d',
+    process = subprocess.Popen(f'gh pr merge {URL} -m -d',
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE, shell=True)
     stdout, stderr = process.communicate()
@@ -281,12 +309,14 @@ def waitForBuild(repo):
         piplelines = r.json()
         buildItems = list(filter(lambda item: item['project_slug'] == f'gh/reactioncommerce/{repo}' and 'tag' not in item['vcs'] and item['vcs']['branch'] == 'trunk' , piplelines['items']))
         pageToken = piplelines['next_page_token']
+        print(buildItems)
     buildItem = buildItems[0]
 
     # Get Status of build
     while True:
         r = requests.get(f"https://circleci.com/api/v2/pipeline/{buildItem['id']}/workflow", headers=headers)
         workflowItem = r.json()['items'][0]
+        print(workflowItem)
         if workflowItem['status'] == 'success':
             return True
         if workflowItem['status'] in ["failed", "error", "failing", "canceled", "unauthorized"]:
@@ -294,16 +324,30 @@ def waitForBuild(repo):
         # check after a minute
         time.sleep(60)
 
+def updateFiles(changelogDoc, prevVersion, version):
+    # Send changelog to the file
+    print("## Writing changelog to file")
+    line_prepender('CHANGELOG.md', changelogDoc)
+
+    print("## Writing version to package.json")
+    with fileinput.FileInput('package.json', inplace=True) as file:
+        for line in file:
+            print(line.replace(f'"version": "{str(prevVersion)}"', f'"version": "{version}"'), end='')
+
+    print("## Writing version to docker-compose.yml")
+    with fileinput.FileInput('docker-compose.yml', inplace=True) as file:
+        for line in file:
+            print(line.replace(str(prevVersion), version), end='')
+
 def releaseRepos():
     for repo in repos:
         # Go inside the repo
         with cd(repo):
             prepareTrunk()
-            gitRepo = Repo()
             
             prevVersion = getPrevVersion()
             # Get commits
-            commits = getCommits(gitRepo, prevVersion)
+            commits = getCommits(repo, prevVersion)
             if not commits:
                 continue
             allCommits.extend(commits)
@@ -312,41 +356,38 @@ def releaseRepos():
 
             # create the next version
             version = getVersion(prevVersion, commits)
+
             repoVersions[repo] = (str(prevVersion), str(version))
+            continue
             bump = getBump(commits)
             print("Next version is", version)
 
             changelogDoc = generateChangelog(commits, version, bump, prevVersion, repo)
             print(changelogDoc)
 
-            # Send changelog to the file
-            print("## Writing changelog to file")
-            line_prepender('CHANGELOG.md', changelogDoc)
+            updateFiles(changelogDoc, prevVersion, version)
+            files = ['CHANGELOG.md', 'docker-compose.yml', 'package.json']
+            if repo != 'example-storefront':
+                files.append('package-lock.json')
 
-            print("## Writing version to package.json")
-            with fileinput.FileInput('package.json', inplace=True) as file:
-                for line in file:
-                    print(line.replace(f'"version": "{str(prevVersion)}"', f'"version": "{version}"'), end='')
-
-            print("## Writing version to docker-compose.yml")
-            with fileinput.FileInput('docker-compose.yml', inplace=True) as file:
-                for line in file:
-                    print(line.replace(str(prevVersion), version), end='')
-
-            files = ['CHANGELOG.md', 'docker-compose.yml', 'package.json', 'package-lock.json']
-            createPR(version, files, changelogDoc)
+            URL = createPR(repo, version, files, changelogDoc)
             waitForChecks()
-            mergePR()
-            waitForBuild()
-            updateDockerHub()
+            mergePR(URL)
+            waitForBuild(repo)
+            updateDockerHub(repo, version)
             createRelease(version, changelogDoc)
             restoreTrunk()
 
-def updateGitOps(repoVersions, devVersion):
+def updateGitOps(devVersion):
     files = []
     changelog = ''
-    with cd('reaction-gitops'):
+    repo = 'reaction-gitops'
+    with cd(repo):
+        prepareTrunk('master')
         for repo, (prevVersion, version) in repoVersions.items():
+            if repo == 'example-storefront':
+                # example-storefront is automatically updated
+                continue
             print(f"## Updating version for {repo}")
             file = f'kustomize/{repo}/overlays/acme/kustomization.yaml'
             changelog += f'\n - {repo}-v{version}'
@@ -355,24 +396,25 @@ def updateGitOps(repoVersions, devVersion):
                 for line in file:
                     print(line.replace(f'newTag: release-next-v{prevVersion}', f'newTag: release-next-v{version}'), end='')
 
-    prepareTrunk()
+        createPR(repo, devVersion, files, changelog, QA, branch='master')
 
-    createPR(devVersion, files, changelog)
-
-    restoreTrunk()
+        restoreTrunk()
 
 def updateDevPlatform():
+    prepareTrunk()
     prevVersion = getPrevVersion()
     version = getVersion(prevVersion, allCommits)
+    bump = getBump(allCommits)
+    print("Next version of reaction-dev-platform is", version)
 
-    allRepos = repoVersions.items() + [('reaction-development-platform', (prevVersion, version))]
+    allRepos = list(repoVersions.items()) + [('reaction-development-platform', (prevVersion, version))]
     # add dev platform to all repos
-    for repo, (prevVersion, version) in allRepos:
+    for repo, (prevVersion, ver) in allRepos:
         with fileinput.FileInput('README.md', inplace=True) as file:
             for line in file:
-                print(line.replace(f'[`{prevVersion}`](https://github.com/reactioncommerce/{repo}/tree/v{prevVersion})', f'[`{version}`](https://github.com/reactioncommerce/{repo}/tree/v{version})'), end='')
-    releases = ", ".join(map(lambda repo, v: f'[{repo} v{v[1]}(https://github.com/reactioncommerce/{repo}/releases/tag/v{v[1]})]', repoVersions.items()))
-    changelogDoc = f'# v{str(version)}\nThis release is coordinated with the release of {releases} to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.\n'
+                print(line.replace(f'[`{prevVersion}`](https://github.com/reactioncommerce/{repo}/tree/v{prevVersion})', f'[`{ver}`](https://github.com/reactioncommerce/{repo}/tree/v{ver})'), end='')
+    releases = ", ".join(map(lambda repoVersionTuple: f'[{repoVersionTuple[0]} v{repoVersionTuple[1][1]}](https://github.com/reactioncommerce/{repoVersionTuple[0]}/releases/tag/v{repoVersionTuple[1][1]})', repoVersions.items()))
+    changelogDoc = f'# v{str(ver)}\nThis release is coordinated with the release of {releases} to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.\n'
 
     # Send changelog to the file
     print("## Writing changelog to file")
@@ -382,24 +424,21 @@ def updateDevPlatform():
 
     # archive config file
     print("## archiving config file")
-    copyfile(f'./config/reaction-oss/reaction-v{str(prevVersion)}', destConfig)
-    for repo, (prevVersion, version) in repoVersions.items():
+    copyfile(f'./config/reaction-oss/reaction-v{str(prevVersion)}.mk', destConfig)
+    for repo, (prevVersion, ver) in repoVersions.items():
         with fileinput.FileInput(destConfig, inplace=True) as file:
             for line in file:
-                print(line.replace(f'{repo},v{str(prevVersion)}', f'{repo},v{str(version)}'), end='')
+                print(line.replace(f'{repo},v{str(prevVersion)}', f'{repo},v{str(ver)}'), end='')
 
     # updating the config file
     print("## updating config file")
-    for repo, (prevVersion, version) in repoVersions.items():
+    for repo, (prevVersion, ver) in repoVersions.items():
         with fileinput.FileInput('config.mk', inplace=True) as file:
             for line in file:
-                print(line.replace(f'{repo},v{str(prevVersion)}', f'{repo},v{str(version)}'), end='')
-
-
-    prepareTrunk()
+                print(line.replace(f'{repo},v{str(prevVersion)}', f'{repo},v{str(ver)}'), end='')
 
     files = ['README.md', 'CHANGELOG.md', 'config.mk', destConfig]
-    createPR(version, files, changelogDoc, QA)
+    createPR('reaction-development-platform', version, files, changelogDoc, QA)
 
     restoreTrunk()
     return version
@@ -462,6 +501,10 @@ def prerequisite():
     
     if not os.environ['CIRCLE_TOKEN']:
         print("Error: Please export yout CircleCI key as CIRCLE_TOKEN")
+        sys.exit()
+
+    if not os.environ['GITHUB_TOKEN_RELEASE']:
+        print("Error: Please export yout GithubKey key as GITHUB_TOKEN_RELEASE")
         sys.exit()
 
 def main():
