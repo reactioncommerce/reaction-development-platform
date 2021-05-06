@@ -28,8 +28,8 @@ endef
 # Projects will be started in this order
 define SUBPROJECT_REPOS
 https://github.com/reactioncommerce/reaction.git,reaction,v3.11.1 \
-https://github.com/reactioncommerce/reaction-admin.git,reaction-admin,v3.0.0-beta.12 \
-https://github.com/reactioncommerce/example-storefront.git,example-storefront,v4.0.0
+https://github.com/reactioncommerce/reaction-admin.git,reaction-admin,v3.0.0-beta.13 \
+https://github.com/reactioncommerce/example-storefront.git,example-storefront,v4.0.2
 endef
 
 # These are all the plugins that `make clone-api-plugins` will clone.
