@@ -4,20 +4,20 @@ Reaction Platform is a customizable, real-time, reactive commerce solution. This
 
 ## Features
 
-* A modern, enterprise-ready, real-time commerce platform.
-* A microservices based architecture.
-* Docker based development environment.
-* Launched and configured with a single CLI command.
+- A modern, enterprise-ready, real-time commerce platform.
+- A microservices based architecture.
+- Docker based development environment.
+- Launched and configured with a single CLI command.
 
 ## Prerequisites
 
-* [GNU Make](https://www.gnu.org/software/make/)
-  * MacOS and Linux users will have a suitable version bundled with the OS
-* Bourne Shell and POSIX tools (sh, grep, sed, awk, etc)
-  * MacOS and Linux users will have a suitable version bundled with the OS
-* [Git][5]
-* [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
-* A [GitHub][6] account with a [configured SSH key][7] is not required by
+- [GNU Make](https://www.gnu.org/software/make/)
+  - MacOS and Linux users will have a suitable version bundled with the OS
+- Bourne Shell and POSIX tools (sh, grep, sed, awk, etc)
+  - MacOS and Linux users will have a suitable version bundled with the OS
+- [Git][5]
+- [Docker][0] | [Docker for Mac][1] | [Docker for Windows][2]
+- A [GitHub][6] account with a [configured SSH key][7] is not required by
   default, but necessary when using custom, private Github repositories.
 
 ## Getting started
@@ -32,20 +32,18 @@ make
 
 Behind the scenes `make` is
 
-* checking that dependencies are present
-* cloning sub-projects from GitHub
-* downloading Docker images
-* starting services
+- checking that dependencies are present
+- cloning sub-projects from GitHub
+- downloading Docker images
+- starting services
 
 These services will be running when the initial `make` command is complete:
 
-| Service                                             | Description                                                                                                                                                                                         |
-|-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [OAuth2 Server (Hydra)][12] (http://localhost:4444) | [ORY Hydra][11] OAuth2 token server.                                                                                                                                                                |
-| [Reaction Identity][17] (http://localhost:4100)     | The OAuth2-compatible user interface for Reaction Identity, such as login and registration.                                                                                                         |
-| [Reaction API][10] (http://localhost:3000)          | The Reaction API, which includes [a GraphQL endpoint](http://localhost:3000/graphql). See [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground/). |
-| [Reaction Admin][19] (http://localhost:4080)        | A user interface for administrators and shop managers to configure shops, manage products, and process orders.                                                                                      |
-| [Example Storefront][13] (http://localhost:4000)    | An example Reaction storefront UI built with [Next.JS](https://github.com/zeit/next.js/).                                                                                                           |
+| Service                                          | Description                                                                                                                                                                                    |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Reaction API][10] (http://localhost:3000)       | The Reaction API, which includes [a GraphQL endpoint](http://localhost:3000/graphql). See [GraphQL Playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground/). |
+| [Reaction Admin][19] (http://localhost:4080)     | A user interface for administrators and shop managers to configure shops, manage products, and process orders.                                                                                 |
+| [Example Storefront][13] (http://localhost:4000) | An example Reaction storefront UI built with [Next.JS](https://github.com/zeit/next.js/).                                                                                                      |
 
 If the `make` command fails at some point, you can run or rerun it for specific services with:
 
@@ -64,7 +62,7 @@ make init-example-storefront
 These are the available `make` commands in the `reaction-platform` root directory.
 
 | Command                                                 | Description                                                                                                                                                                    |
-|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `make`                                                  | Bootstraps the entire Reaction development environment in Docker. Projects will use production Docker images and code.                                                         |
 | `make init-<project-name>`                              | Example: `make init-example-storefront`. Does clone/setup for a single project.                                                                                                |
 | `make init-dev`                                         | Bootstraps the entire Reaction development environment in Docker. Projects will use development configuration.                                                                 |
@@ -97,7 +95,7 @@ version.
 
 The Reaction development platform uses `make` to run tasks. `make` is aware of
 the task dependency tree and ensures that all required dependencies are met
-when running a task.  The main tasks and functionality for `make` are
+when running a task. The main tasks and functionality for `make` are
 configured in `Makefile`.
 
 Configurations that may change are extracted into `config.mk`. This file is
@@ -127,11 +125,11 @@ You may customize your Reaction installation by modifying `config.local.mk`.
 It's easiest to start with an existing release configuration file and modify it
 as needed. In this way you can:
 
-* Add new sub-projects
-* Remove sub-projects
-* Update the git origin for a sub-project
-* Change the default branch for a sub-project
-* Customize the lifecycle hooks directory to run custom scripts for automation
+- Add new sub-projects
+- Remove sub-projects
+- Update the git origin for a sub-project
+- Change the default branch for a sub-project
+- Customize the lifecycle hooks directory to run custom scripts for automation
 
 Configuration files store in `config/local` are ignored by git. It's a
 convenient place to store local files for quick development. If you are sharing
@@ -237,13 +235,11 @@ When you need to communicate with one service from another over the internal Doc
 
 You may refer to each sub-project's README for additional operation details.
 
-| Sub-project                | Description           | Documentation                                                          |
-| -------------------------- | ----------------------|----------------------------------------------------------------------- |
-| [`reaction`][10]           | GraphQL API           | [Reaction API Documentation][14]                                       |
-| [`reaction-hydra`][12]     | Authentication server | [Reaction Hydra Readme][16], [Ory Hydra docs][11]                         |
-| [`reaction-identity`][17]  | Identity service      | [Reaction Identity Readme][18]                                         |
-| [`reaction-admin`][19]     | Classic Admin UI      | [Reaction Admin Readme][20]                                            |
-| [`example-storefront`][13] | Example Storefront    | [Example Storefront docs][15]                                          |
+| Sub-project                | Description        | Documentation                    |
+| -------------------------- | ------------------ | -------------------------------- |
+| [`reaction`][10]           | GraphQL API        | [Reaction API Documentation][14] |
+| [`reaction-admin`][19]     | Classic Admin UI   | [Reaction Admin Readme][20]      |
+| [`example-storefront`][13] | Example Storefront | [Example Storefront docs][15]    |
 
 For tips on developing with Docker, read our [Docker docs](https://docs.reactioncommerce.com/docs/installation-docker-development).
 
@@ -251,18 +247,18 @@ For tips on developing with Docker, read our [Docker docs](https://docs.reaction
 
 The following table provides the most current version of each project used by this platform:
 
-| Project                             | Latest release / tag                                                                                |
-|-------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [reaction-development-platform][10] | [`3.11.1`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.11.1)            |
-| [reaction][10]                      | [`3.11.1`](https://github.com/reactioncommerce/reaction/tree/v3.11.1)                                 |
-| [reaction-hydra][12]                | [`3.0.0`](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0)                           |
-| [reaction-identity][17]             | [`3.3.0`](https://github.com/reactioncommerce/reaction-identity/tree/v3.3.0)                        |
-| [example-storefront][13]            | [`4.0.0`](https://github.com/reactioncommerce/example-storefront/tree/v4.0.0)                       |
-| [reaction-admin (beta)][19]         | [`3.0.0-beta.12`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.12)             |
-| [api-migrations][20]                | [`3.11.0`](https://github.com/reactioncommerce/api-migrations/tree/v3.11.0)                           |
+| Project                             | Latest release / tag                                                                       |
+| ----------------------------------- | ------------------------------------------------------------------------------------------ |
+| [reaction-development-platform][10] | [`3.11.1`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.11.1) |
+| [reaction][10]                      | [`3.11.1`](https://github.com/reactioncommerce/reaction/tree/v3.11.1)                      |
+| [example-storefront][13]            | [`4.0.0`](https://github.com/reactioncommerce/example-storefront/tree/v4.0.0)              |
+| [reaction-admin (beta)][19]         | [`3.0.0-beta.12`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.12)  |
+| [api-migrations][20]                | [`3.11.0`](https://github.com/reactioncommerce/api-migrations/tree/v3.11.0)                |
 
 ### Developer Certificate of Origin
+
 We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing-off all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:
+
 ```
 Signed-off-by: Jane Doe <jane.doe@example.com>
 ```
@@ -288,14 +284,9 @@ Copyright © [GNU General Public License v3.0](./LICENSE.md)
 [8]: https://github.com/reactioncommerce/reaction-platform "Reaction Platform"
 [9]: https://github.com/graphcool/graphql-playground "GraphQL Playground"
 [10]: https://github.com/reactioncommerce/reaction "Reaction API"
-[11]: https://github.com/ory/hydra "ORY Hydra"
-[12]: https://github.com/reactioncommerce/reaction-hydra "Reaction Hydra"
 [13]: https://github.com/reactioncommerce/example-storefront "Example Storefront"
 [14]: https://docs.reactioncommerce.com "Reaction Documentation"
 [15]: https://github.com/reactioncommerce/example-storefront/tree/master/docs "Example Storefront docs"
-[16]: https://github.com/reactioncommerce/reaction-hydra/blob/master/README.md "Reaction Hydra Readme"
-[17]: https://github.com/reactioncommerce/reaction-identity "Reaction Identity"
-[18]: https://github.com/reactioncommerce/reaction-identity/blob/trunk/README.md "Reaction Identity Readme"
 [19]: https://github.com/reactioncommerce/reaction-admin "Reaction Admin"
 [20]: https://github.com/reactioncommerce/reaction-admin/blob/trunk/README.md "Reaction Admin Readme"
 [20]: https://github.com/reactioncommerce/api-migrations "API Migrations"
