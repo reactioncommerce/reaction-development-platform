@@ -12,6 +12,7 @@ from shutil import copyfile
 import sys
 import requests
 from github import Github
+import re
 
 CORE_MEMBERS = ['akarshitwal@gmail.com', 'jessica.wolvington@gmail.com', 'support@github.com']
 QA = 'manueldelreal'
@@ -22,6 +23,13 @@ repos = [
     'example-storefront', 
     'reaction-identity'
 ]
+
+previousReleaseVersion = {
+    'reaction-admin': '',
+    'reaction': '',
+    'reaction-identity': '',
+    'example-storefront': '',
+}
 
 dockerRepoDict = {
     'reaction-admin': 'admin',
@@ -104,7 +112,7 @@ def generateChangelog(commits, version, bump, prevVersion, repo):
         if key not in categoriesDict.keys():
             # anything that is not in above is a fix
             key = 'fix'
-        changelogDict[key] += '\n - ' + commit.split('\n')[0] + f' ([#{pullNumber}](https://github.com/reactioncommerce/{repo}/pull/{pullNumber}))'
+        changelogDict[key] += '\n - ' + commit.split('\n')[0] + f' [#{pullNumber}](https://github.com/reactioncommerce/{repo}/pull/{pullNumber})'
 
     changelogDoc = sorted(map(lambda item: (categoriesOrder[categoriesDict[item[0]]], f'\n\n## {categoriesDict[item[0]]}\n{item[1]}'), changelogDict.items()))
     changelogDoc = ''.join([v for k, v in changelogDoc])
@@ -113,19 +121,19 @@ def generateChangelog(commits, version, bump, prevVersion, repo):
 
     return f'# v{version}\n\n{repo} v{version} adds {bump} features or bug fixes and contains no breaking changes since v{str(prevVersion)}.{changelogDoc}\n\n'
 
-def getPrevVersion():
+def getLatestVersion():
     # Get latest relase tag name
     process = subprocess.Popen(['git', 'describe', '--abbrev=0', '--tags'],
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE)
     tag, stderr = process.communicate()
     tag = tag.decode("utf-8").strip('\n')
-    prevVersion = semantic_version.Version(tag[1:])
-    print(f"Previous release was {tag}")
+    version = semantic_version.Version(tag[1:])
+    
     if stderr:
         print(stderr)
         print("Error getting tag")
-    return prevVersion      
+    return version      
 
 def prepareTrunk(branch='trunk'):
     #  Stashing the changes
@@ -145,7 +153,7 @@ def prepareTrunk(branch='trunk'):
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
-    
+
     # Pull the latest changes
     print("## Running git pull")
     process = subprocess.Popen(['git', 'pull', 'origin'],
@@ -206,7 +214,7 @@ def createPR(repo, version, files, changelogDoc, reviewer='reactioncommerce/oc',
     stdout, stderr = process.communicate()
     print(stdout)
     print(stderr)
-    
+
 
     # pushing the branch to github
     print("## Pushing the branch to github")
@@ -231,7 +239,7 @@ def getCommits(repo, prevVersion):
     gitRepo = Repo()
     user = Github(os.environ['GITHUB_TOKEN_RELEASE'])
     repo = user.get_repo(f'reactioncommerce/{repo}')
-    bareCommits = list(gitRepo.iter_commits(f'HEAD...v{prevVersion}'))
+    bareCommits = list(gitRepo.iter_commits(f'HEAD...v'+str(prevVersion)))
     commits = []
     for index, c in enumerate(bareCommits):
         commit = repo.get_commit(sha=str(c))
@@ -267,25 +275,6 @@ def approvePR():
     print(stdout)
     print(stderr)
 
-def waitForChecks():
-    print("## Waiting for the build process")
-    while True:
-        process = subprocess.Popen(f'gh pr status | grep "Current" -A 2 | tail -1',
-                            stdout=subprocess.PIPE, 
-                            stderr=subprocess.PIPE, shell=True)
-        stdout, stderr = process.communicate()
-        print(stdout, stderr)
-        if 'passing' in str(stdout):
-            return True
-        elif 'failed' in str(stdout):
-            print("The PR failed the build")
-            return False
-        print("Ask the reviewer to approve the PR")
-        time.sleep(5)
-        
-    print(stdout)
-    print(stderr)
-    
 def mergePR(URL):
     print("## Merging PR on github")
     process = subprocess.Popen(f'gh pr merge {URL} -m -d',
@@ -339,45 +328,29 @@ def updateFiles(changelogDoc, prevVersion, version):
         for line in file:
             print(line.replace(str(prevVersion), version), end='')
 
-def releaseRepos():
+def getCurrentRepoVersion():
+    print(os.getcwd())
+    for line in fileinput.FileInput('config.mk'):
+        res = re.search("^https://github.com/reactioncommerce/.*,",line)
+        if res:
+            lineArr = line.split(",")
+            previousReleaseVersion[lineArr[-2]]=lineArr[-1].replace('\\','').replace('v','').strip()
+
+def prepareRepos():
+    getCurrentRepoVersion()
     for repo in repos:
         # Go inside the repo
         with cd(repo):
-            prepareTrunk()
+            latestVersion = getLatestVersion()
+            print("Latest version of {0} is {1}".format(repo,latestVersion))
             
-            prevVersion = getPrevVersion()
             # Get commits
-            commits = getCommits(repo, prevVersion)
+            commits = getCommits(repo, previousReleaseVersion[repo])
             if not commits:
                 continue
             allCommits.extend(commits)
-
-            print("## Getting log messages")
-
-            # create the next version
-            version = getVersion(prevVersion, commits)
-
-            repoVersions[repo] = (str(prevVersion), str(version))
-            continue
-            bump = getBump(commits)
-            print("Next version is", version)
-
-            changelogDoc = generateChangelog(commits, version, bump, prevVersion, repo)
-            print(changelogDoc)
-
-            updateFiles(changelogDoc, prevVersion, version)
-            files = ['CHANGELOG.md', 'docker-compose.yml', 'package.json']
-            if repo != 'example-storefront':
-                files.append('package-lock.json')
-
-            URL = createPR(repo, version, files, changelogDoc)
-            waitForChecks()
-            mergePR(URL)
-            waitForBuild(repo)
-            updateDockerHub(repo, version)
-            createRelease(version, changelogDoc)
-            restoreTrunk()
-
+            repoVersions[repo] = (str(previousReleaseVersion[repo]), str(latestVersion))
+            
 def updateGitOps(devVersion):
     files = []
     changelog = ''
@@ -401,8 +374,9 @@ def updateGitOps(devVersion):
         restoreTrunk()
 
 def updateDevPlatform():
+    print("Starting Reaction Development Platform update.")
     prepareTrunk()
-    prevVersion = getPrevVersion()
+    prevVersion = getLatestVersion()
     version = getVersion(prevVersion, allCommits)
     bump = getBump(allCommits)
     print("Next version of reaction-dev-platform is", version)
@@ -420,7 +394,7 @@ def updateDevPlatform():
     print("## Writing changelog to file")
     line_prepender('CHANGELOG.md', changelogDoc)
 
-    destConfig = f'./config/reaction-oss/reaction-v{str(version)}'
+    destConfig = f'./config/reaction-oss/reaction-v{str(version)}.mk'
 
     # archive config file
     print("## archiving config file")
@@ -443,33 +417,6 @@ def updateDevPlatform():
     restoreTrunk()
     return version
 
-def updateDockerHub(repo, version):
-    dockerRepo = dockerRepoDict[repo]
-
-    print("## Pulling trunk")
-    process = subprocess.Popen(f'docker pull reactioncommerce/{dockerRepo}:trunk',
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
-
-    print("## Renaming tag")
-    process = subprocess.Popen(f'docker tag reactioncommerce/{dockerRepo}:trunk reactioncommerce/{dockerRepo}:{version}',
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
-
-    print("## Pushing to docker")
-    process = subprocess.Popen(f'docker push reactioncommerce/{dockerRepo}:{version}',
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
-
 def prerequisite():
     # Current directory should be reaction-development-platform
     pwd = os.getcwd()
@@ -489,7 +436,7 @@ def prerequisite():
     if stderr:
         print("Error: github command line not installed. Please install gh")
         sys.exit()
-    
+
     process = subprocess.Popen('gh auth status',
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE, shell=True)
@@ -498,7 +445,7 @@ def prerequisite():
         print(stderr)
         print("Error: Please login into github using command line")
         sys.exit()
-    
+
     if not os.environ['CIRCLE_TOKEN']:
         print("Error: Please export yout CircleCI key as CIRCLE_TOKEN")
         sys.exit()
@@ -507,9 +454,10 @@ def prerequisite():
         print("Error: Please export yout GithubKey key as GITHUB_TOKEN_RELEASE")
         sys.exit()
 
+
 def main():
     prerequisite()
-    releaseRepos()
+    prepareRepos()
     devVersion = updateDevPlatform()
     updateGitOps(devVersion)
 
