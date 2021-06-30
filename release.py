@@ -174,16 +174,6 @@ def restoreTrunk():
     print(stderr)
 
 def createPR(repo, version, files, changelogDoc, reviewer='reactioncommerce/oc', branch='trunk'):
-    # npm i
-    manager = 'yarn' if repo == 'example-storefront' else 'npm'
-    print(f"## Running {manager} install")
-    process = subprocess.Popen(f'{manager} install',
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
-
     # create new brach
     print("## Creating release branch locally")
     process = subprocess.Popen(f'git checkout -b release-next-v{version}',
@@ -350,28 +340,6 @@ def prepareRepos():
                 continue
             allCommits.extend(commits)
             repoVersions[repo] = (str(previousReleaseVersion[repo]), str(latestVersion))
-            
-def updateGitOps(devVersion):
-    files = []
-    changelog = ''
-    repo = 'reaction-gitops'
-    with cd(repo):
-        prepareTrunk('master')
-        for repo, (prevVersion, version) in repoVersions.items():
-            if repo == 'example-storefront':
-                # example-storefront is automatically updated
-                continue
-            print(f"## Updating version for {repo}")
-            file = f'kustomize/{repo}/overlays/acme/kustomization.yaml'
-            changelog += f'\n - {repo}-v{version}'
-            files.append(file)
-            with fileinput.FileInput(file, inplace=True) as file:
-                for line in file:
-                    print(line.replace(f'newTag: release-next-v{prevVersion}', f'newTag: release-next-v{version}'), end='')
-
-        createPR(repo, devVersion, files, changelog, QA, branch='master')
-
-        restoreTrunk()
 
 def updateDevPlatform():
     print("Starting Reaction Development Platform update.")
@@ -384,6 +352,7 @@ def updateDevPlatform():
     allRepos = list(repoVersions.items()) + [('reaction-development-platform', (prevVersion, version))]
     # add dev platform to all repos
     for repo, (prevVersion, ver) in allRepos:
+        print(f'Updating {repo} from {prevVersion} to {ver}')
         with fileinput.FileInput('README.md', inplace=True) as file:
             for line in file:
                 print(line.replace(f'[`{prevVersion}`](https://github.com/reactioncommerce/{repo}/tree/v{prevVersion})', f'[`{ver}`](https://github.com/reactioncommerce/{repo}/tree/v{ver})'), end='')
@@ -459,7 +428,6 @@ def main():
     prerequisite()
     prepareRepos()
     devVersion = updateDevPlatform()
-    updateGitOps(devVersion)
 
 if __name__ == "__main__":
     main()
