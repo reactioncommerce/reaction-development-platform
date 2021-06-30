@@ -253,8 +253,8 @@ The following table provides the most current version of each project used by th
 
 | Project                             | Latest release / tag                                                                       |
 | ----------------------------------- | ------------------------------------------------------------------------------------------ |
-| [reaction-development-platform][10] | [`3.12.0`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.12.0) |
-| [reaction][10]                      | [`3.11.1`](https://github.com/reactioncommerce/reaction/tree/v3.11.1)                      |
+| [reaction-development-platform][10] | [`3.13.0`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.13.0) |
+| [reaction][10]                      | [`3.13.0`](https://github.com/reactioncommerce/reaction/tree/v3.13.0)                      |
 | [reaction-hydra][12]                | [`3.0.0`](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0)                  |
 | [reaction-identity][17]             | [`3.3.0`](https://github.com/reactioncommerce/reaction-identity/tree/v3.3.0)               |
 | [example-storefront][13]            | [`4.0.2`](https://github.com/reactioncommerce/example-storefront/tree/v4.0.2)              |
