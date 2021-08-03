@@ -1,3 +1,5 @@
+# v3.14.0
+This release is coordinated with the release of [reaction-admin v3.0.0-beta.18](https://github.com/reactioncommerce/reaction-admin/releases/tag/v3.0.0-beta.18), [reaction v3.13.1](https://github.com/reactioncommerce/reaction/releases/tag/v3.13.1), [example-storefront v4.1.0](https://github.com/reactioncommerce/example-storefront/releases/tag/v4.1.0) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
 # v3.13.0
 This release is coordinated with the release of [reaction-admin v3.0.0-beta.15](https://github.com/reactioncommerce/reaction-admin/releases/tag/v3.0.0-beta.15), [reaction v3.13.0](https://github.com/reactioncommerce/reaction/releases/tag/v3.13.0), [example-storefront v4.0.2](https://github.com/reactioncommerce/example-storefront/releases/tag/v4.0.2) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
 # v3.12.0

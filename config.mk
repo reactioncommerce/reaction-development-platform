@@ -31,7 +31,7 @@ https://github.com/reactioncommerce/reaction-hydra.git,reaction-hydra,v3.0.0 \
 https://github.com/reactioncommerce/reaction.git,reaction,v3.13.0 \
 https://github.com/reactioncommerce/reaction-admin.git,reaction-admin,v3.0.0-beta.15 \
 https://github.com/reactioncommerce/reaction-identity.git,reaction-identity,v3.3.0 \
-https://github.com/reactioncommerce/example-storefront.git,example-storefront,v4.0.2
+https://github.com/reactioncommerce/example-storefront.git,example-storefront,v4.1.0
 endef
 
 # These are all the plugins that `make clone-api-plugins` will clone.
