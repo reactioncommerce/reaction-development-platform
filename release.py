@@ -14,7 +14,7 @@ import requests
 from github import Github
 import re
 
-CORE_MEMBERS = ['akarshitwal@gmail.com', 'jessica.wolvington@gmail.com', 'support@github.com']
+CORE_MEMBERS = ['akarshitwal@gmail.com', 'support@github.com']
 QA = 'manueldelreal'
 
 repos = [
@@ -256,68 +256,6 @@ def createRelease(version, changelogDoc):
     print(stdout)
     print(stderr)
 
-def approvePR():
-    print("## Approving PR")
-    process = subprocess.Popen(f'gh pr review --approve',
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = process.communicate()        
-    print(stdout)
-    print(stderr)
-
-def mergePR(URL):
-    print("## Merging PR on github")
-    process = subprocess.Popen(f'gh pr merge {URL} -m -d',
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
-
-def waitForBuild(repo):
-    headers = {'Circle-Token': os.environ['CIRCLE_TOKEN']}
-    buildItems = []
-    payload = {
-        'org-slug': 'gh/reactioncommerce'
-    }
-    pageToken = None
-    while not buildItems:
-        if pageToken:
-            payload['page-token'] = pageToken
-        r = requests.get("https://circleci.com/api/v2/pipeline", params=payload, headers=headers)
-        piplelines = r.json()
-        buildItems = list(filter(lambda item: item['project_slug'] == f'gh/reactioncommerce/{repo}' and 'tag' not in item['vcs'] and item['vcs']['branch'] == 'trunk' , piplelines['items']))
-        pageToken = piplelines['next_page_token']
-        print(buildItems)
-    buildItem = buildItems[0]
-
-    # Get Status of build
-    while True:
-        r = requests.get(f"https://circleci.com/api/v2/pipeline/{buildItem['id']}/workflow", headers=headers)
-        workflowItem = r.json()['items'][0]
-        print(workflowItem)
-        if workflowItem['status'] == 'success':
-            return True
-        if workflowItem['status'] in ["failed", "error", "failing", "canceled", "unauthorized"]:
-            return False
-        # check after a minute
-        time.sleep(60)
-
-def updateFiles(changelogDoc, prevVersion, version):
-    # Send changelog to the file
-    print("## Writing changelog to file")
-    line_prepender('CHANGELOG.md', changelogDoc)
-
-    print("## Writing version to package.json")
-    with fileinput.FileInput('package.json', inplace=True) as file:
-        for line in file:
-            print(line.replace(f'"version": "{str(prevVersion)}"', f'"version": "{version}"'), end='')
-
-    print("## Writing version to docker-compose.yml")
-    with fileinput.FileInput('docker-compose.yml', inplace=True) as file:
-        for line in file:
-            print(line.replace(str(prevVersion), version), end='')
-
 def getCurrentRepoVersion():
     print(os.getcwd())
     for line in fileinput.FileInput('config.mk'):
@@ -391,11 +329,6 @@ def prerequisite():
     pwd = os.getcwd()
     if not pwd.endswith('reaction-development-platform'):
         print("Error: Please run the script from reaction-development-platform")
-        sys.exit()
-    # gitops repos must be present
-    subdirs = [name for name in os.listdir(".") if os.path.isdir(name)]
-    if 'reaction-gitops' not in subdirs:
-        print("Error: Please clone reaction-gitops in reaction-development-platform")
         sys.exit()  
 
     process = subprocess.Popen('gh --version',
