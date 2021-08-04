@@ -253,12 +253,12 @@ The following table provides the most current version of each project used by th
 
 | Project                             | Latest release / tag                                                                       |
 | ----------------------------------- | ------------------------------------------------------------------------------------------ |
-| [reaction-development-platform][10] | [`3.14.0`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.14.0) |
+| [reaction-development-platform][10] | [`3.14.1`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.14.1) |
 | [reaction][10]                      | [`3.13.1`](https://github.com/reactioncommerce/reaction/tree/v3.13.1)                      |
 | [reaction-hydra][12]                | [`3.0.0`](https://github.com/reactioncommerce/reaction-hydra/tree/v3.0.0)                  |
-| [reaction-identity][17]             | [`3.3.0`](https://github.com/reactioncommerce/reaction-identity/tree/v3.3.0)               |
+| [reaction-identity][17]             | [`3.3.1`](https://github.com/reactioncommerce/reaction-identity/tree/v3.3.1)               |
 | [example-storefront][13]            | [`4.1.0`](https://github.com/reactioncommerce/example-storefront/tree/v4.1.0)              |
-| [reaction-admin (beta)][19]         | [`3.0.0-beta.18`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.18)  |
+| [reaction-admin (beta)][19]         | [`3.0.0-beta.19`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.19)  |
 | [api-migrations][20]                | [`3.11.0`](https://github.com/reactioncommerce/api-migrations/tree/v3.11.0)                |
 
 ### Developer Certificate of Origin
