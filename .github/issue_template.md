@@ -1,4 +1,4 @@
-Are you looking for help with getting started on Reaction? Please visit our [Reaction documentation](https://docs.reactioncommerce.com/reaction-docs/master/getting-started-developing-with-reaction).
+Are you looking for help with getting started on Reaction? Please visit our [Reaction documentation](https://mailchimp.com/developer/open-commerce/docs/fundamentals/).
 
 ## Prerequisites
 * [ ] Are you running the latest version?
