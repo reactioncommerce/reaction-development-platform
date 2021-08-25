@@ -57,6 +57,10 @@ Example:
 make init-example-storefront
 ```
 
+## Migrating from v3.x.x to v4.x.x
+
+Look at the detailed guide [here](docs/migration-guide-v4.md)
+
 ## Project Commands
 
 These are the available `make` commands in the `reaction-platform` root directory.
