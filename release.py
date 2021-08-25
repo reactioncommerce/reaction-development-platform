@@ -58,9 +58,14 @@ def line_prepender(filename, line):
         f.write(line + content)
 
 def getBump(commits):
+    level = 'patch'
     for author, commit, pullNumber in commits:
         if commit.lower().startswith('feat'):
-            return 'minor'
+            ## its minor if not already major
+            if level != 'major':
+                level = 'minor'
+        if 'BREAKING CHANGE:' in commit:
+            return 'major'
     return 'patch'
 
 def getVersion(prevVersion, commits):
@@ -71,6 +76,8 @@ def getVersion(prevVersion, commits):
         bump = getBump(commits)
         if bump == 'minor':
             nextVersion = prevVersion.next_minor()
+        elif bump == 'major':
+            nextVersion = prevVersion.next_major()
         else:
             nextVersion = prevVersion.next_patch()
     return str(nextVersion)
