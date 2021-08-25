@@ -21,20 +21,17 @@ repos = [
     'reaction-admin',
     'reaction', 
     'example-storefront', 
-    'reaction-identity'
 ]
 
 previousReleaseVersion = {
     'reaction-admin': '',
     'reaction': '',
-    'reaction-identity': '',
     'example-storefront': '',
 }
 
 dockerRepoDict = {
     'reaction-admin': 'admin',
     'reaction': 'reaction',
-    'reaction-identity': 'identity',
     'example-storefront': 'example-storefront',
 }
 
@@ -269,6 +266,7 @@ def prepareRepos():
     for repo in repos:
         # Go inside the repo
         with cd(repo):
+            prepareTrunk()
             latestVersion = getLatestVersion()
             print("Latest version of {0} is {1}".format(repo,latestVersion))
             
