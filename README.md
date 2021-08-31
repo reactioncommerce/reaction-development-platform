@@ -61,6 +61,10 @@ make init-example-storefront
 
 Look at the detailed guide [here](docs/migration-guide-v4.md)
 
+## Ongoing Support for v3.x
+
+We'll continue to provide support for v3.x bugs 6 months from the v4.0 release. That marks 3/1/2022 as the date when we officially end support to 3.x versions and below. Beyond that date we'll be fully dedicated to the new version and will not be taking any v3.x issues into discussion/development.
+
 ## Project Commands
 
 These are the available `make` commands in the `reaction-platform` root directory.
