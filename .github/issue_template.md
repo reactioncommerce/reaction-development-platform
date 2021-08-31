@@ -1,7 +1,7 @@
 Are you looking for help with getting started on Reaction? Please visit our [Reaction documentation](https://mailchimp.com/developer/open-commerce/docs/fundamentals/).
 
 ## Prerequisites
-* [ ] what version are you running?
+* [ ] What version are you running?
 * [ ] Are you able to consistently reproduce the issue?
 * [ ] Did you search the issue queue for existing issue? [Search issues](https://github.com/reactioncommerce/reaction/issues)
 
