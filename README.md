@@ -259,6 +259,8 @@ The following table provides the most current version of each project used by th
 | [reaction-admin (beta)][19]         | [`3.0.0-beta.22`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.19)  |
 | [api-migrations][20]                | [`3.11.0`](https://github.com/reactioncommerce/api-migrations/tree/v3.11.0)                |
 
+### [Release Process](docs/release-guide.md)
+
 ### Developer Certificate of Origin
 
 We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing-off all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:
