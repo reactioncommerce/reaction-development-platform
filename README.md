@@ -255,13 +255,12 @@ For tips on developing with Docker, read our [Docker docs](https://docs.reaction
 
 The following table provides the most current version of each project used by this platform:
 
-| Project                             | Latest release / tag                                                                       |
-| ----------------------------------- | ------------------------------------------------------------------------------------------ |
-| [reaction-development-platform][10] | [`3.14.2`](https://github.com/reactioncommerce/reaction-development-platform/tree/v3.14.1) |
-| [reaction][10]                      | [`3.13.4`](https://github.com/reactioncommerce/reaction/tree/v3.13.2)                      |
-| [example-storefront][13]            | [`4.1.2`](https://github.com/reactioncommerce/example-storefront/tree/v4.1.0)              |
-| [reaction-admin (beta)][19]         | [`3.0.0-beta.22`](https://github.com/reactioncommerce/reaction-admin/tree/v3.0.0-beta.19)  |
-| [api-migrations][20]                | [`3.11.0`](https://github.com/reactioncommerce/api-migrations/tree/v3.11.0)                |
+| Project                             | Latest release / tag                                                                     |
+| ----------------------------------- | ---------------------------------------------------------------------------------------- |
+| [reaction-development-platform][10] | [`4.0.0`](https://github.com/reactioncommerce/reaction-development-platform/tree/v4.0.0) |
+| [reaction][10]                      | [`4.0.0`](https://github.com/reactioncommerce/reaction/tree/v4.0.0)                      |
+| [example-storefront][13]            | [`5.0.0`](https://github.com/reactioncommerce/example-storefront/tree/v5.0.0)            |
+| [reaction-admin (beta)][19]         | [`4.0.0-beta.3`](https://github.com/reactioncommerce/reaction-admin/tree/v4.0.0-beta.3)  |
 
 ### [Release Process](docs/release-guide.md)
 
