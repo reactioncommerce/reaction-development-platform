@@ -308,9 +308,17 @@ def updateDevPlatform():
 
     destConfig = f'./config/reaction-oss/reaction-v{str(version)}.mk'
 
-    # archive config file
-    print("## archiving config file")
+    print("## Copying config file")
     copyfile(f'./config/reaction-oss/reaction-v{str(prevVersion)}.mk', destConfig)
+
+    ## replacing version number at the top of the file
+    with fileinput.FileInput(destConfig, inplace=True) as file:
+            for line in file:
+                if "Reaction OSS" in line:
+                    print(f'### Reaction OSS v{version}')
+                else:
+                    print(line, end='')
+
     for repo, (prevVersion, ver) in repoVersions.items():
         with fileinput.FileInput(destConfig, inplace=True) as file:
             for line in file:
