@@ -257,10 +257,10 @@ The following table provides the most current version of each project used by th
 
 | Project                             | Latest release / tag                                                                     |
 | ----------------------------------- | ---------------------------------------------------------------------------------------- |
-| [reaction-development-platform][10] | [`4.0.0`](https://github.com/reactioncommerce/reaction-development-platform/tree/v4.0.0) |
+| [reaction-development-platform][10] | [`4.0.1`](https://github.com/reactioncommerce/reaction-development-platform/tree/v4.0.1) |
 | [reaction][10]                      | [`4.0.0`](https://github.com/reactioncommerce/reaction/tree/v4.0.0)                      |
-| [example-storefront][13]            | [`5.0.0`](https://github.com/reactioncommerce/example-storefront/tree/v5.0.0)            |
-| [reaction-admin (beta)][19]         | [`4.0.0-beta.3`](https://github.com/reactioncommerce/reaction-admin/tree/v4.0.0-beta.3)  |
+| [example-storefront][13]            | [`5.0.3`](https://github.com/reactioncommerce/example-storefront/tree/v5.0.3)            |
+| [reaction-admin (beta)][19]         | [`4.0.0-beta.4`](https://github.com/reactioncommerce/reaction-admin/tree/v4.0.0-beta.4)  |
 
 ### [Release Process](docs/release-guide.md)
 
