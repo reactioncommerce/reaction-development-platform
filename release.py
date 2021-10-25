@@ -236,7 +236,10 @@ def getCommits(repo, prevVersion):
     bareCommits = list(gitRepo.iter_commits(f'HEAD...v'+str(prevVersion)))
     commits = []
     for index, c in enumerate(bareCommits):
-        commit = repo.get_commit(sha=str(c))
+        try:
+            commit = repo.get_commit(sha=str(c))
+        except:
+            continue
         commitPulls = commit.get_pulls()
         pullNumber = 0
         for pull in commitPulls:
