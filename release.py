@@ -66,7 +66,7 @@ def getBump(commits):
                 level = 'minor'
         if 'BREAKING CHANGE:' in commit:
             return 'major'
-    return 'patch'
+    return level
 
 def getVersion(prevVersion, commits):
     if prevVersion.prerelease:
