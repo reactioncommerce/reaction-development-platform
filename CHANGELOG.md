@@ -1,3 +1,5 @@
+# v4.1.0
+This release is coordinated with the release of [reaction-admin v4.0.0-beta.17](https://github.com/reactioncommerce/reaction-admin/releases/tag/v4.0.0-beta.17), [reaction v4.1.8](https://github.com/reactioncommerce/reaction/releases/tag/v4.1.8), [example-storefront v5.1.3](https://github.com/reactioncommerce/example-storefront/releases/tag/v5.1.3) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
 # v4.0.1
 This release is coordinated with the release of [reaction-admin v4.0.0-beta.5](https://github.com/reactioncommerce/reaction-admin/releases/tag/v4.0.0-beta.5), [reaction v4.0.0](https://github.com/reactioncommerce/reaction/releases/tag/v4.0.0), [example-storefront v5.0.3](https://github.com/reactioncommerce/example-storefront/releases/tag/v5.0.3) to keep the `reaction-development-platform` up-to-date with the latest version of all our development platform projects.
 # v4.0.0
