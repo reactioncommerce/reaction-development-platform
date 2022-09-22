@@ -5,7 +5,8 @@
 You should use the [Reaction CLI](https://github.com/reactioncommerce/cli) to start working with the project
 
 
-Consult the []
+Consult the [Open Commerce Quick Start Guide](https://mailchimp.com/developer/open-commerce/guides/quick-start/) for 
+more information
 
 ## Overview
 
