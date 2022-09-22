@@ -1,3 +1,12 @@
+# NOTE: THIS PROJECT IS DEPRECATED
+
+**No further work is being done to maintain or improve this project**
+
+You should use the [Reaction CLI](https://github.com/reactioncommerce/cli) to start working with the project
+
+
+Consult the []
+
 ## Overview
 
 Reaction Platform is a customizable, real-time, reactive commerce solution. This repository is the quickest way to get started with the [Reaction API][10] and its supporting services in a local development environment.
